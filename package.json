@@ -1,0 +1,281 @@
+{
+  "name": "ts-mcp-debugger",
+  "displayName": "TypeScript MCP Debugger",
+  "description": "Advanced debugging for Node.js and TypeScript with MCP integration",
+  "version": "1.1.5",
+  "publisher": "DigitalDefiance",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Testing",
+    "Other"
+  ],
+  "keywords": [
+    "debugger",
+    "nodejs",
+    "typescript",
+    "mcp",
+    "ai-debugging",
+    "copilot",
+    "hang-detection",
+    "profiling"
+  ],
+  "activationEvents": [
+    "onDebug",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mcp-debugger.start",
+        "title": "MCP Debugger: Start Debug Session",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "mcp-debugger.detectHang",
+        "title": "MCP Debugger: Detect Hanging Process",
+        "icon": "$(watch)"
+      },
+      {
+        "command": "mcp-debugger.setBreakpoint",
+        "title": "MCP Debugger: Set Smart Breakpoint",
+        "icon": "$(debug-breakpoint)"
+      },
+      {
+        "command": "mcp-debugger.profileCPU",
+        "title": "MCP Debugger: Start CPU Profiling",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "mcp-debugger.profileMemory",
+        "title": "MCP Debugger: Take Heap Snapshot",
+        "icon": "$(database)"
+      }
+    ],
+    "configuration": {
+      "title": "MCP Debugger",
+      "properties": {
+        "mcp-debugger.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to MCP debugger server executable. Leave empty to use bundled server."
+        },
+        "mcp-debugger.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start MCP server when VS Code opens"
+        },
+        "mcp-debugger.defaultTimeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "Default timeout for debug operations in milliseconds"
+        },
+        "mcp-debugger.enableHangDetection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic hang detection for long-running operations"
+        },
+        "mcp-debugger.hangDetectionTimeout": {
+          "type": "number",
+          "default": 5000,
+          "description": "Timeout for hang detection in milliseconds"
+        },
+        "mcp-debugger.enableProfiling": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable performance profiling features"
+        },
+        "mcp-debugger.logLevel": {
+          "type": "string",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "default": "info",
+          "description": "Log level for MCP debugger"
+        }
+      }
+    },
+    "debuggers": [
+      {
+        "type": "mcp-node",
+        "label": "MCP Node.js Debugger",
+        "program": "./out/debugAdapter.js",
+        "runtime": "node",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Absolute path to the program to debug",
+                "default": "${workspaceFolder}/index.js"
+              },
+              "args": {
+                "type": "array",
+                "description": "Command line arguments",
+                "default": []
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Working directory",
+                "default": "${workspaceFolder}"
+              },
+              "env": {
+                "type": "object",
+                "description": "Environment variables",
+                "default": {}
+              },
+              "timeout": {
+                "type": "number",
+                "description": "Timeout in milliseconds",
+                "default": 30000
+              },
+              "enableHangDetection": {
+                "type": "boolean",
+                "description": "Enable hang detection",
+                "default": true
+              },
+              "enableProfiling": {
+                "type": "boolean",
+                "description": "Enable CPU/memory profiling",
+                "default": false
+              }
+            }
+          },
+          "attach": {
+            "required": [
+              "sessionId"
+            ],
+            "properties": {
+              "sessionId": {
+                "type": "string",
+                "description": "MCP debug session ID to attach to"
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "mcp-node",
+            "request": "launch",
+            "name": "MCP Debug Current File",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "enableHangDetection": true
+          },
+          {
+            "type": "mcp-node",
+            "request": "launch",
+            "name": "MCP Debug with Profiling",
+            "program": "${workspaceFolder}/index.js",
+            "cwd": "${workspaceFolder}",
+            "enableProfiling": true
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "MCP: Launch Program",
+            "description": "Debug a Node.js program with MCP debugger",
+            "body": {
+              "type": "mcp-node",
+              "request": "launch",
+              "name": "MCP Debug",
+              "program": "^\"\\${workspaceFolder}/index.js\"",
+              "cwd": "^\"\\${workspaceFolder}\"",
+              "enableHangDetection": true
+            }
+          },
+          {
+            "label": "MCP: Debug Jest Tests",
+            "description": "Debug Jest tests with MCP debugger",
+            "body": {
+              "type": "mcp-node",
+              "request": "launch",
+              "name": "MCP Debug Jest",
+              "program": "^\"\\${workspaceFolder}/node_modules/.bin/jest\"",
+              "args": [
+                "--runInBand"
+              ],
+              "cwd": "^\"\\${workspaceFolder}\"",
+              "enableHangDetection": true
+            }
+          }
+        ]
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "mcp-debugger.setBreakpoint",
+          "when": "editorLangId == javascript || editorLangId == typescript",
+          "group": "debug"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "mcp-debugger.start",
+          "when": "editorLangId == javascript || editorLangId == typescript"
+        },
+        {
+          "command": "mcp-debugger.detectHang",
+          "when": "editorLangId == javascript || editorLangId == typescript"
+        },
+        {
+          "command": "mcp-debugger.setBreakpoint",
+          "when": "editorLangId == javascript || editorLangId == typescript"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./ && npm run copy-fixtures",
+    "copy-fixtures": "mkdir -p out/test/fixtures && cp -r src/test/fixtures/* out/test/fixtures/ 2>/dev/null || true",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
+    "vsce:login": "vsce login DigitalDefiance",
+    "package": "vsce package --no-dependencies",
+    "publish": "vsce publish --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/glob": "^9.0.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^3.7.1",
+    "glob": "^13.0.0",
+    "mocha": "^11.7.5",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@ai-capabilities-suite/mcp-debugger-server": "^1.1.5",
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "@vscode/debugadapter": "^1.65.0",
+    "@vscode/debugprotocol": "^1.65.0",
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digital-defiance/ai-capabilities-suite.git",
+    "directory": "packages/vscode-mcp-debugger"
+  },
+  "bugs": {
+    "url": "https://github.com/digital-defiance/ai-capabilities-suite/issues"
+  },
+  "homepage": "https://github.com/digital-defiance/ai-capabilities-suite/tree/main/packages/vscode-mcp-debugger#readme",
+  "license": "MIT"
+}

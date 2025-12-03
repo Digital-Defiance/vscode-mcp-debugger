@@ -1,0 +1,63 @@
+name: Publish VS Code Extension
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          cd packages/vscode-mcp-debugger
+          npm install
+
+      - name: Compile TypeScript
+        run: |
+          cd packages/vscode-mcp-debugger
+          npm run compile
+
+      - name: Run tests
+        run: |
+          cd packages/vscode-mcp-debugger
+          npm test || true
+
+      - name: Package extension
+        run: |
+          cd packages/vscode-mcp-debugger
+          npm run package
+
+      - name: Publish to VS Code Marketplace
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          cd packages/vscode-mcp-debugger
+          npx vsce publish -p $VSCE_PAT
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp-debugger-vsix
+          path: packages/vscode-mcp-debugger/*.vsix
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: packages/vscode-mcp-debugger/*.vsix
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
