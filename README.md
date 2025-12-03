@@ -2,6 +2,12 @@
 
 Advanced debugging for Node.js and TypeScript applications with AI-powered features through the Model Context Protocol (MCP).
 
+## 🔗 Repository
+
+This package is now maintained in its own repository: **[https://github.com/Digital-Defiance/vscode-mcp-debugger](https://github.com/Digital-Defiance/vscode-mcp-debugger)**
+
+This repository is part of the [https://github.com/Digital-Defiance/ai-capabilitites-suite](AI Capabilitites Suite) on GitHub.
+
 ## Features
 
 ### 🐛 Advanced Debugging
