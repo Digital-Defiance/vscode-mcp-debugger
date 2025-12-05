@@ -15,9 +15,23 @@ import {
   Diagnostic,
   DiagnosticSeverity,
   ExecuteCommandParams,
+  CodeActionParams,
+  CodeAction,
 } from "vscode-languageserver/node";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
+import { getCodeActions } from "./codeActions";
+import { getSignatureHelp } from "./signatureHelp";
+import { getInlayHints } from "./inlayHints";
+import { getDocumentSymbols } from "./documentSymbols";
+import { getSemanticTokens, tokenTypes, tokenModifiers } from "./semanticTokens";
+import { getDocumentLinks } from "./documentLinks";
+import { getDocumentColors, getColorPresentations } from "./colorProvider";
+import { getFoldingRanges } from "./foldingRanges";
+import { getSelectionRanges } from "./selectionRanges";
+import { getLinkedEditingRanges } from "./linkedEditingRanges";
+import { prepareCallHierarchy, getIncomingCalls, getOutgoingCalls } from "./callHierarchy";
+import { prepareTypeHierarchy, getSupertypes, getSubtypes } from "./typeHierarchy";
 
 // Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
@@ -58,6 +72,35 @@ connection.onInitialize((params: InitializeParams) => {
       codeLensProvider: {
         resolveProvider: true,
       },
+      // Code actions for quick fixes
+      codeActionProvider: true,
+      // Signature help for function parameters
+      signatureHelpProvider: {
+        triggerCharacters: ["(", ","],
+      },
+      // Inlay hints for inline information
+      inlayHintProvider: true,
+      // Document symbols for outline view
+      documentSymbolProvider: true,
+      // Semantic tokens for syntax highlighting
+      semanticTokensProvider: {
+        legend: { tokenTypes, tokenModifiers },
+        full: true,
+      },
+      // Document links to documentation
+      documentLinkProvider: {},
+      // Color provider for severity visualization
+      colorProvider: true,
+      // Folding range provider for code folding
+      foldingRangeProvider: true,
+      // Selection range provider for smart selection
+      selectionRangeProvider: true,
+      // Linked editing ranges for simultaneous editing
+      linkedEditingRangeProvider: true,
+      // Call hierarchy for function relationships
+      callHierarchyProvider: true,
+      // Type hierarchy for type relationships
+      typeHierarchyProvider: true,
       // Execute command provider for MCP tools
       executeCommandProvider: {
         commands: [
@@ -145,6 +188,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
         message:
           "Potential infinite loop detected. Consider using hang detection.",
         source: "mcp-debugger",
+        code: "infinite-loop-warning",
       });
     }
 
@@ -159,6 +203,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
         message:
           "Consider wrapping JSON.parse in try-catch for error handling.",
         source: "mcp-debugger",
+        code: "missing-try-catch",
       });
     }
 
@@ -176,6 +221,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
         message:
           "Consider using breakpoints instead of console.log for debugging.",
         source: "mcp-debugger",
+        code: "console-log-hint",
       });
     }
   }
@@ -333,6 +379,133 @@ function getWordRangeAtPosition(
 
   return null;
 }
+
+// Code action provider
+connection.onCodeAction((params: CodeActionParams): CodeAction[] => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) {
+    return [];
+  }
+
+  const actions: CodeAction[] = [];
+  for (const diagnostic of params.context.diagnostics) {
+    if (diagnostic.source === "mcp-debugger") {
+      actions.push(...getCodeActions(document, diagnostic));
+    }
+  }
+
+  return actions;
+});
+
+// Signature help provider
+connection.onSignatureHelp((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return null;
+
+  const text = document.getText();
+  const offset = document.offsetAt(params.position);
+  const before = text.substring(Math.max(0, offset - 100), offset);
+
+  // Find function name
+  const match = before.match(/(debugger_\w+)\s*\([^)]*$/);
+  if (!match) return null;
+
+  const functionName = match[1];
+  const argsText = before.substring(before.lastIndexOf("(") + 1);
+  const activeParameter = (argsText.match(/,/g) || []).length;
+
+  return getSignatureHelp(functionName, activeParameter);
+});
+
+// Inlay hint provider
+connection.languages.inlayHint.on((params: any) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return getInlayHints(document);
+});
+
+// Document symbol provider
+connection.onDocumentSymbol((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return getDocumentSymbols(document);
+});
+
+// Semantic tokens provider
+connection.languages.semanticTokens.on((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return { data: [] };
+  return getSemanticTokens(document);
+});
+
+// Document link provider
+connection.onDocumentLinks((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return getDocumentLinks(document);
+});
+
+// Color provider
+connection.onDocumentColor((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return getDocumentColors(document);
+});
+
+connection.onColorPresentation((params) => {
+  return getColorPresentations(params.color);
+});
+
+// Folding range provider
+connection.onFoldingRanges((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return getFoldingRanges(document);
+});
+
+// Selection range provider
+connection.onSelectionRanges((params) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return [];
+  return getSelectionRanges(document, params.positions);
+});
+
+// Linked editing range provider
+connection.languages.onLinkedEditingRange((params: any) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return null;
+  return getLinkedEditingRanges(document, params.position);
+});
+
+// Call hierarchy provider
+connection.languages.callHierarchy.onPrepare((params: any) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return null;
+  return prepareCallHierarchy(document, params.position);
+});
+
+connection.languages.callHierarchy.onIncomingCalls((params: any) => {
+  return getIncomingCalls(params.item);
+});
+
+connection.languages.callHierarchy.onOutgoingCalls((params: any) => {
+  return getOutgoingCalls(params.item);
+});
+
+// Type hierarchy provider
+connection.languages.typeHierarchy.onPrepare((params: any) => {
+  const document = documents.get(params.textDocument.uri);
+  if (!document) return null;
+  return prepareTypeHierarchy(document, params.position);
+});
+
+connection.languages.typeHierarchy.onSupertypes((params: any) => {
+  return getSupertypes(params.item);
+});
+
+connection.languages.typeHierarchy.onSubtypes((params: any) => {
+  return getSubtypes(params.item);
+});
 
 // Make the text document manager listen on the connection
 documents.listen(connection);

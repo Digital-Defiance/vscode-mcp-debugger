@@ -15,6 +15,7 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 - **Conditional Breakpoints**: Break only when specific conditions are met
 - **Hang Detection**: Automatically detect infinite loops and hanging processes
 - **Source Map Support**: Debug TypeScript with full source map integration
+- **Code Lens**: Inline breakpoint suggestions at functions, loops, and error handlers
 
 ### 📊 Performance Profiling
 - **CPU Profiling**: Identify performance bottlenecks
@@ -30,6 +31,39 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 - **Jest**: Debug Jest tests with breakpoints
 - **Mocha**: Debug Mocha tests
 - **Vitest**: Debug Vitest tests
+
+### 🎨 Language Server Protocol (LSP) Features
+
+#### **Code Intelligence**
+- **Hover Information**: Hover over variables to see debugging instructions and inspection tips
+- **Signature Help**: Real-time parameter hints for all debugger functions with documentation
+- **Inlay Hints**: Inline type annotations showing return types (session-id, breakpoint-id, variable types)
+- **Document Symbols**: Outline view showing debug sessions, breakpoints, inspections, and hang detections
+- **Semantic Tokens**: Syntax highlighting for debugger functions and variables
+
+#### **Code Actions & Quick Fixes**
+- **Convert console.log to breakpoint**: Transform logging statements into proper breakpoints with watch expressions
+- **Remove console.log**: Clean up debugging statements
+- **Wrap in try-catch**: Automatically add error handling around risky operations (e.g., JSON.parse)
+- **Add hang detection**: Insert hang detection comments for infinite loops
+
+#### **Navigation & Hierarchy**
+- **Call Hierarchy**: Visualize debugger function dependencies and call relationships
+- **Type Hierarchy**: Explore debugger type relationships (DebugSession, Breakpoint, StackFrame, Variable)
+- **Document Links**: Quick links to debugger documentation
+- **Go to Definition**: Navigate to debugger function definitions
+
+#### **Code Editing**
+- **Folding Ranges**: Collapse/expand debug session blocks
+- **Selection Ranges**: Smart selection expansion for debugger code
+- **Linked Editing**: Simultaneously edit related debugger identifiers
+- **Color Provider**: Visual severity indicators for diagnostics
+
+#### **Diagnostics & Validation**
+- **Infinite Loop Detection**: Warns about `while(true)` patterns with hang detection suggestions
+- **Missing Error Handling**: Suggests try-catch for operations like JSON.parse
+- **Console.log Hints**: Recommends using breakpoints instead of console.log for debugging
+- **Real-time Validation**: Instant feedback as you type
 
 ## Installation
 
@@ -159,6 +193,122 @@ Add to `.vscode/launch.json`:
 | `MCP Debugger: Start CPU Profiling` | Start CPU profiler | - |
 | `MCP Debugger: Take Heap Snapshot` | Take memory snapshot | - |
 
+### LSP Commands (Available via MCP Protocol)
+
+| Command | Description |
+|---------|-------------|
+| `mcp.debugger.start` | Start debug session via MCP |
+| `mcp.debugger.setBreakpoint` | Set breakpoint via MCP |
+| `mcp.debugger.continue` | Resume execution |
+| `mcp.debugger.stepOver` | Step over current line |
+| `mcp.debugger.stepInto` | Step into function |
+| `mcp.debugger.stepOut` | Step out of function |
+| `mcp.debugger.pause` | Pause execution |
+| `mcp.debugger.inspect` | Inspect variable |
+| `mcp.debugger.getStack` | Get call stack |
+| `mcp.debugger.detectHang` | Detect hanging process |
+| `mcp.debugger.profileCPU` | Start CPU profiling |
+| `mcp.debugger.profileMemory` | Take memory snapshot |
+
+## LSP Features in Action
+
+### Code Lens Breakpoint Suggestions
+
+The extension automatically suggests breakpoints at strategic locations:
+
+```javascript
+function processData(items) {  // 🔴 Set Breakpoint
+  for (let i = 0; i < items.length; i++) {  // 🔍 Debug Loop
+    try {
+      const result = transform(items[i]);
+      results.push(result);
+    } catch (error) {  // ⚠️ Debug Error Handler
+      console.error(error);
+    }
+  }
+}
+```
+
+### Signature Help
+
+Get real-time parameter hints as you type:
+
+```javascript
+debugger_start(
+  // ↓ Shows: command: string, args?: string[], cwd?: string, timeout?: number
+  'node',
+  ['app.js'],
+  '/path/to/project',
+  30000
+);
+```
+
+### Inlay Hints
+
+See return types inline:
+
+```javascript
+const session = debugger_start('node', ['test.js']);  // → session-id
+const bp = debugger_set_breakpoint(session, 'test.js', 10);  // → breakpoint-id
+const value = debugger_inspect(session, 'user.age');  // → number
+```
+
+### Code Actions
+
+Quick fixes appear automatically:
+
+```javascript
+// Before: console.log statement with hint
+console.log(user.name);  // 💡 Consider using breakpoints instead
+
+// Quick Fix 1: Convert to breakpoint
+// Watch: user.name
+debugger; // Breakpoint - inspect user.name
+
+// Quick Fix 2: Remove console.log
+// (statement removed)
+```
+
+### Diagnostics
+
+Real-time warnings and suggestions:
+
+```javascript
+// ⚠️ Warning: Potential infinite loop detected
+while (true) {
+  // Consider using hang detection
+}
+
+// ℹ️ Info: Consider wrapping in try-catch
+const data = JSON.parse(input);
+```
+
+### Call Hierarchy
+
+Visualize function dependencies:
+
+```
+debugger_continue
+  ↓ depends on
+  debugger_set_breakpoint
+    ↓ depends on
+    debugger_start
+```
+
+### Type Hierarchy
+
+Explore type relationships:
+
+```
+Object
+  ├── Breakpoint
+  ├── StackFrame
+  └── Variable
+
+EventEmitter
+  └── DebugSession
+```
+
 ## Usage Examples
 
 ### Example 1: Debug a Node.js Application
@@ -261,6 +411,48 @@ See the [Copilot Integration Guide](COPILOT-GUIDE.md) for:
 - Tips and best practices
 - Troubleshooting guide
 
+## LSP Features for AI Agents
+
+The Language Server Protocol integration enables AI agents to:
+
+### 1. **Understand Code Context**
+- Access document symbols to identify debug sessions and breakpoints
+- Use semantic tokens to understand debugger-specific syntax
+- Navigate type hierarchies to understand debugger data structures
+
+### 2. **Provide Intelligent Suggestions**
+- Suggest breakpoints at optimal locations using code lens
+- Recommend quick fixes for common debugging patterns
+- Offer signature help for correct debugger function usage
+
+### 3. **Validate Code**
+- Detect infinite loops and suggest hang detection
+- Identify missing error handling
+- Warn about inefficient debugging practices (console.log)
+
+### 4. **Navigate Code**
+- Use call hierarchy to understand debugger function dependencies
+- Follow document links to relevant documentation
+- Navigate type hierarchies for debugger types
+
+### Example: AI Agent Using LSP Features
+
+```javascript
+// AI agent analyzes code using LSP
+// 1. Gets document symbols → finds existing breakpoints
+// 2. Uses call hierarchy → understands function dependencies
+// 3. Checks diagnostics → identifies infinite loop warning
+// 4. Suggests code action → adds hang detection
+// 5. Provides signature help → shows correct parameters
+
+// AI's suggestion:
+const session = debugger_start('node', ['app.js'], process.cwd(), 30000);
+const result = debugger_detect_hang('node', ['app.js'], 5000, 100);
+if (result.hung) {
+  console.log(`Hang detected at ${result.location}`);
+}
+```
+
 ## Troubleshooting
 
 ### MCP Server Not Starting
@@ -327,6 +519,27 @@ This extension contributes the following settings:
 - Some Node.js native modules may not be debuggable
 
 ## Release Notes
+
+### 1.5.0
+
+Major LSP update:
+- **13 new LSP features** for enhanced code intelligence
+- **Code Actions**: Convert console.log to breakpoints, add try-catch, remove logging
+- **Signature Help**: Real-time parameter hints for all debugger functions
+- **Inlay Hints**: Inline type annotations for return values
+- **Document Symbols**: Outline view for debug sessions and breakpoints
+- **Semantic Tokens**: Syntax highlighting for debugger code
+- **Call Hierarchy**: Visualize function dependencies
+- **Type Hierarchy**: Explore debugger type relationships
+- **Diagnostics**: Real-time validation with infinite loop detection
+- **Code Lens**: Inline breakpoint suggestions
+- **Document Links**: Quick access to documentation
+- **Folding Ranges**: Collapse/expand debug blocks
+- **Selection Ranges**: Smart selection expansion
+- **Linked Editing**: Simultaneous identifier editing
+- **Color Provider**: Visual severity indicators
+- **80+ comprehensive tests** for LSP features
+- **E2E testing** for all LSP capabilities
 
 ### 1.0.0
 
