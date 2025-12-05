@@ -390,6 +390,12 @@ async function takeHeapSnapshot() {
   try {
     const snapshot = await mcpClient.takeHeapSnapshot(session.id);
 
+    // In test environment, skip the save dialog
+    if (process.env.VSCODE_TEST_MODE === 'true') {
+      vscode.window.showInformationMessage("Heap snapshot captured (test mode)");
+      return;
+    }
+
     // Save snapshot to file
     const uri = await vscode.window.showSaveDialog({
       defaultUri: vscode.Uri.file("heap-snapshot.heapsnapshot"),

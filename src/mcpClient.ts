@@ -5,8 +5,19 @@ import * as path from "path";
 export class MCPDebuggerClient {
   private serverProcess: ChildProcess | undefined;
   private sessionId: string | undefined;
+  private disposed = false;
 
   constructor(private outputChannel: vscode.OutputChannel) {}
+
+  private safeLog(message: string): void {
+    try {
+      if (!this.disposed) {
+        this.outputChannel.appendLine(message);
+      }
+    } catch (error) {
+      // Channel may be closed in test environment - ignore
+    }
+  }
 
   async start(): Promise<void> {
     const config = vscode.workspace.getConfiguration("mcp-debugger");
@@ -24,32 +35,26 @@ export class MCPDebuggerClient {
       args = ["@ai-capabilities-suite/mcp-debugger-server"];
     }
 
-    this.outputChannel.appendLine(
-      `Starting MCP server: ${command} ${args.join(" ")}`
-    );
+    this.safeLog(`Starting MCP server: ${command} ${args.join(" ")}`);
 
     this.serverProcess = spawn(command, args, {
       stdio: ["pipe", "pipe", "pipe"],
     });
 
     this.serverProcess.stdout?.on("data", (data) => {
-      this.outputChannel.appendLine(`[MCP Server] ${data.toString()}`);
+      this.safeLog(`[MCP Server] ${data.toString()}`);
     });
 
     this.serverProcess.stderr?.on("data", (data) => {
-      this.outputChannel.appendLine(`[MCP Server Error] ${data.toString()}`);
+      this.safeLog(`[MCP Server Error] ${data.toString()}`);
     });
 
     this.serverProcess.on("error", (error) => {
-      this.outputChannel.appendLine(
-        `[MCP Server] Process error: ${error.message}`
-      );
+      this.safeLog(`[MCP Server] Process error: ${error.message}`);
     });
 
     this.serverProcess.on("exit", (code) => {
-      this.outputChannel.appendLine(
-        `[MCP Server] Process exited with code ${code}`
-      );
+      this.safeLog(`[MCP Server] Process exited with code ${code}`);
     });
 
     // Wait for server to be ready
@@ -57,6 +62,7 @@ export class MCPDebuggerClient {
   }
 
   stop(): void {
+    this.disposed = true;
     if (this.serverProcess) {
       this.serverProcess.kill();
       this.serverProcess = undefined;
