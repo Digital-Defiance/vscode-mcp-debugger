@@ -553,7 +553,7 @@ Initial release:
 
 ## Contributing
 
-Found a bug or have a feature request? Please open an issue on [GitHub](https://github.com/yourusername/mcp-debugger/issues).
+Found a bug or have a feature request? Please open an issue on [GitHub](https://github.com/Digital-Defiance/vscode-mcp-debugger/issues).
 
 ## License
 
@@ -561,7 +561,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## More Information
 
-- [MCP Debugger Documentation](https://github.com/yourusername/mcp-debugger)
+- [VS Code MCP Debugger Documentation](https://github.com/Digital-Defiance/vscode-mcp-debugger)
+- [MCP Debugger Server Documentation](https://github.com/Digital-Defiance/mcp-debugger-server)
+- [MCP Debugger Core Documentation](https://github.com/Digital-Defiance/mcp-debugger-core)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [VS Code Debugging](https://code.visualstudio.com/docs/editor/debugging)
 
