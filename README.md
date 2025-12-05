@@ -41,10 +41,10 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 - **Document Symbols**: Outline view showing debug sessions, breakpoints, inspections, and hang detections
 - **Semantic Tokens**: Syntax highlighting for debugger functions and variables
 
-#### **Code Actions & Quick Fixes**
+#### **Code Actions (4 features)**
 - **Convert console.log to breakpoint**: Transform logging statements into proper breakpoints with watch expressions
 - **Remove console.log**: Clean up debugging statements
-- **Wrap in try-catch**: Automatically add error handling around risky operations (e.g., JSON.parse)
+- **Wrap in try-catch**: Add error handling around risky operations (e.g., JSON.parse)
 - **Add hang detection**: Insert hang detection comments for infinite loops
 
 #### **Navigation & Hierarchy**
