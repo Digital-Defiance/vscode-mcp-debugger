@@ -20,6 +20,32 @@ export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("MCP Debugger");
   outputChannel.appendLine("MCP Debugger extension activating...");
 
+  // Register MCP server definition provider for GitHub Copilot
+  const mcpProviderId = 'ts-mcp-debugger.mcp-provider';
+  const mcpProvider: vscode.McpServerDefinitionProvider = {
+    provideMcpServerDefinitions: async (token) => {
+      const config = vscode.workspace.getConfiguration('mcp-debugger');
+      const serverPath = config.get<string>('serverPath', '');
+      const command = serverPath || 'npx';
+      const args = serverPath ? [] : ['-y', '@ai-capabilities-suite/mcp-debugger-server'];
+      
+      return [
+        new vscode.McpStdioServerDefinition(
+          'MCP TypeScript Debugger',
+          command,
+          args
+        )
+      ];
+    },
+    resolveMcpServerDefinition: async (server, token) => {
+      return server;
+    }
+  };
+  
+  context.subscriptions.push(
+    vscode.lm.registerMcpServerDefinitionProvider(mcpProviderId, mcpProvider)
+  );
+
   // Initialize debug context provider
   debugContextProvider = new DebugContextProvider();
 

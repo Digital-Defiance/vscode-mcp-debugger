@@ -2,7 +2,7 @@
   "name": "ts-mcp-debugger",
   "displayName": "MCP ACS TypeScript Debugger",
   "description": "Advanced debugging for Node.js and TypeScript with MCP integration. Part of the Digital Defiance AI Capabilities Suite.",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "packageManager": "yarn@4.12.0",
   "publisher": "DigitalDefiance",
   "icon": "images/icon.png",
@@ -31,6 +31,12 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "ts-mcp-debugger.mcp-provider",
+        "label": "MCP TypeScript Debugger"
+      }
+    ],
     "commands": [
       {
         "command": "mcp-debugger.start",
