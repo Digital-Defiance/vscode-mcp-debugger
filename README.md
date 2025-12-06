@@ -6,7 +6,7 @@ Advanced debugging for Node.js and TypeScript applications with AI-powered featu
 
 This package is now maintained in its own repository: **[https://github.com/Digital-Defiance/vscode-mcp-debugger](https://github.com/Digital-Defiance/vscode-mcp-debugger)**
 
-This repository is part of the [AI Capabilitites Suite](https://github.com/Digital-Defiance/ai-capabilitites-suite) on GitHub.
+This repository is part of the [AI Capabilitites Suite](https://github.com/Digital-Defiance/ai-capabilities-suite) on GitHub.
 
 ## Features
 
