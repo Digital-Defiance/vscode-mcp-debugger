@@ -13,7 +13,7 @@ import { MCPDebugAdapterDescriptorFactory } from "./debugAdapterFactory";
 import { DebugContextProvider } from "./debugContextProvider";
 
 let mcpClient: MCPDebuggerClient | undefined;
-let outputChannel: vscode.OutputChannel;
+let outputChannel: vscode.LogOutputChannel;
 let languageClient: LanguageClient | undefined;
 let debugContextProvider: DebugContextProvider;
 let mcpStatusBarItem: vscode.StatusBarItem | undefined;
@@ -94,7 +94,7 @@ async function configureMcpServer(): Promise<void> {
 }
 
 export async function activate(context: vscode.ExtensionContext) {
-  outputChannel = vscode.window.createOutputChannel("MCP Debugger");
+  outputChannel = vscode.window.createOutputChannel("MCP Debugger", { log: true });
   outputChannel.appendLine("MCP Debugger extension activating...");
 
   // Register MCP server definition provider (for future MCP protocol support)

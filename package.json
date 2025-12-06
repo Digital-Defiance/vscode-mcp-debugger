@@ -1,8 +1,8 @@
 {
   "name": "ts-mcp-debugger",
-  "displayName": "MCP ACS TypeScript Debugger",
-  "description": "Advanced debugging for Node.js and TypeScript with MCP integration. Part of the Digital Defiance AI Capabilities Suite.",
-  "version": "1.5.7",
+  "displayName": "MCP ACS Debugger",
+  "description": "AI-powered debugging for VS Code with multi-language support. Integrates with GitHub Copilot and AI agents through Model Context Protocol. Debug JavaScript, TypeScript, Python, Java, C/C++, Go, Rust, and more.",
+  "version": "1.5.8",
   "packageManager": "yarn@4.12.0",
   "publisher": "DigitalDefiance",
   "icon": "images/icon.png",
@@ -21,32 +21,38 @@
     "debugger",
     "nodejs",
     "typescript",
+    "javascript",
+    "python",
+    "java",
+    "go",
+    "rust",
+    "cpp",
+    "multi-language",
     "mcp",
     "mcp-server",
     "ai-debugging",
     "copilot",
     "hang-detection",
-    "profiling"
+    "profiling",
+    "dap"
   ],
   "activationEvents": [
     "onStartupFinished",
-    "onDebug",
-    "onLanguage:javascript",
-    "onLanguage:typescript"
+    "onDebug"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "mcpServerDefinitionProviders": [
       {
         "id": "ts-mcp-debugger.mcp-provider",
-        "label": "MCP TypeScript Debugger"
+        "label": "Node.js Debugger (MCP)"
       }
     ],
     "chatParticipants": [
       {
         "id": "ts-mcp-debugger.participant",
         "name": "debugger",
-        "description": "MCP TypeScript Debugger - Advanced debugging with hang detection and profiling",
+        "description": "AI-powered debugging for VS Code with multi-language support via Debug Adapter Protocol",
         "isSticky": true
       }
     ],
@@ -54,19 +60,39 @@
       {
         "name": "debugger_start",
         "displayName": "Start Debugger",
-        "modelDescription": "Start a new debug session for Node.js/TypeScript",
+        "modelDescription": "Start a new debug session (VS Code: any language with debug adapter; MCP server: Node.js/JavaScript only)",
         "toolReferenceName": "startDebugging",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "program": { "type": "string", "description": "Path to the program to debug" },
-            "args": { "type": "array", "items": { "type": "string" }, "description": "Command line arguments" },
-            "cwd": { "type": "string", "description": "Working directory" },
-            "stopOnEntry": { "type": "boolean", "description": "Stop on entry" }
+            "program": {
+              "type": "string",
+              "description": "Path to the program to debug"
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Command line arguments"
+            },
+            "cwd": {
+              "type": "string",
+              "description": "Working directory"
+            },
+            "stopOnEntry": {
+              "type": "boolean",
+              "description": "Stop on entry"
+            }
           },
-          "required": ["program"]
+          "required": [
+            "program"
+          ]
         }
       },
       {
@@ -75,13 +101,21 @@
         "modelDescription": "Stop the current debug session",
         "toolReferenceName": "stopDebugging",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -90,17 +124,39 @@
         "modelDescription": "Set a breakpoint at a specific file and line",
         "toolReferenceName": "setBreakpoint",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" },
-            "file": { "type": "string", "description": "File path" },
-            "line": { "type": "number", "description": "Line number (1-based)" },
-            "condition": { "type": "string", "description": "Breakpoint condition" },
-            "logMessage": { "type": "string", "description": "Log message" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            },
+            "file": {
+              "type": "string",
+              "description": "File path"
+            },
+            "line": {
+              "type": "number",
+              "description": "Line number (1-based)"
+            },
+            "condition": {
+              "type": "string",
+              "description": "Breakpoint condition"
+            },
+            "logMessage": {
+              "type": "string",
+              "description": "Log message"
+            }
           },
-          "required": ["sessionId", "file", "line"]
+          "required": [
+            "sessionId",
+            "file",
+            "line"
+          ]
         }
       },
       {
@@ -109,13 +165,21 @@
         "modelDescription": "Continue execution",
         "toolReferenceName": "continueExecution",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -124,13 +188,21 @@
         "modelDescription": "Step over the current line",
         "toolReferenceName": "stepOver",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -139,13 +211,21 @@
         "modelDescription": "Step into the current line",
         "toolReferenceName": "stepInto",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -154,13 +234,21 @@
         "modelDescription": "Step out of the current function",
         "toolReferenceName": "stepOut",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -169,13 +257,21 @@
         "modelDescription": "Pause execution",
         "toolReferenceName": "pauseExecution",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -184,14 +280,25 @@
         "modelDescription": "Get the current stack trace",
         "toolReferenceName": "getStackTrace",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" },
-            "threadId": { "type": "number", "description": "Thread ID (optional)" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            },
+            "threadId": {
+              "type": "number",
+              "description": "Thread ID (optional)"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -200,13 +307,21 @@
         "modelDescription": "Get local variables for the current stack frame",
         "toolReferenceName": "getLocalVariables",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -215,14 +330,26 @@
         "modelDescription": "Inspect a variable or expression",
         "toolReferenceName": "inspectObject",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" },
-            "expression": { "type": "string", "description": "Expression to evaluate" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            },
+            "expression": {
+              "type": "string",
+              "description": "Expression to evaluate"
+            }
           },
-          "required": ["sessionId", "expression"]
+          "required": [
+            "sessionId",
+            "expression"
+          ]
         }
       },
       {
@@ -231,14 +358,25 @@
         "modelDescription": "Detect infinite loops and hanging code",
         "toolReferenceName": "detectHang",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" },
-            "timeout": { "type": "number", "description": "Timeout in milliseconds" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            },
+            "timeout": {
+              "type": "number",
+              "description": "Timeout in milliseconds"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -247,13 +385,21 @@
         "modelDescription": "Start CPU profiling",
         "toolReferenceName": "startCpuProfile",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       },
       {
@@ -262,13 +408,21 @@
         "modelDescription": "Stop CPU profiling and get results",
         "toolReferenceName": "stopCpuProfile",
         "canBeReferencedInPrompt": true,
-        "tags": ["debugger", "mcp"],
+        "tags": [
+          "debugger",
+          "mcp"
+        ],
         "inputSchema": {
           "type": "object",
           "properties": {
-            "sessionId": { "type": "string", "description": "The debug session ID" }
+            "sessionId": {
+              "type": "string",
+              "description": "The debug session ID"
+            }
           },
-          "required": ["sessionId"]
+          "required": [
+            "sessionId"
+          ]
         }
       }
     ],
@@ -357,7 +511,7 @@
               "@ai-capabilities-suite/mcp-debugger-server"
             ]
           },
-          "description": "MCP TypeScript Debugger server configuration"
+          "description": "MCP Debugger server configuration"
         }
       }
     },
@@ -500,36 +654,30 @@
       {
         "command": "mcp-debugger.start",
         "key": "ctrl+shift+d ctrl+shift+m",
-        "mac": "cmd+shift+d cmd+shift+m",
-        "when": "editorLangId == javascript || editorLangId == typescript"
+        "mac": "cmd+shift+d cmd+shift+m"
       },
       {
         "command": "mcp-debugger.detectHang",
         "key": "ctrl+shift+d ctrl+shift+h",
-        "mac": "cmd+shift+d cmd+shift+h",
-        "when": "editorLangId == javascript || editorLangId == typescript"
+        "mac": "cmd+shift+d cmd+shift+h"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "mcp-debugger.setBreakpoint",
-          "when": "editorLangId == javascript || editorLangId == typescript",
           "group": "debug"
         }
       ],
       "commandPalette": [
         {
-          "command": "mcp-debugger.start",
-          "when": "editorLangId == javascript || editorLangId == typescript"
+          "command": "mcp-debugger.start"
         },
         {
-          "command": "mcp-debugger.detectHang",
-          "when": "editorLangId == javascript || editorLangId == typescript"
+          "command": "mcp-debugger.detectHang"
         },
         {
-          "command": "mcp-debugger.setBreakpoint",
-          "when": "editorLangId == javascript || editorLangId == typescript"
+          "command": "mcp-debugger.setBreakpoint"
         }
       ]
     }
@@ -557,7 +705,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@ai-capabilities-suite/mcp-debugger-server": "^1.1.7",
+    "@ai-capabilities-suite/mcp-debugger-server": "^1.1.9",
     "@modelcontextprotocol/sdk": "^0.5.0",
     "@vscode/debugadapter": "^1.65.0",
     "@vscode/debugprotocol": "^1.65.0",

@@ -1,6 +1,8 @@
 # MCP Debugger for VS Code
 
-Advanced debugging for Node.js and TypeScript applications with AI-powered features through the Model Context Protocol (MCP).
+AI-powered debugging for VS Code with multi-language support. Integrates with GitHub Copilot and AI agents through Model Context Protocol. Debug JavaScript, TypeScript, Python, Java, C/C++, Go, Rust, PHP, Ruby, and more via Debug Adapter Protocol.
+
+**Note:** The VS Code extension supports all languages via Debug Adapter Protocol. The standalone MCP server (for use with AI agents outside VS Code) supports Node.js/JavaScript only via Chrome DevTools Protocol.
 
 ## 🔗 Repository
 
@@ -11,10 +13,12 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 ## Features
 
 ### 🐛 Advanced Debugging
+- **VS Code Extension**: Multi-language support via Debug Adapter Protocol (JavaScript, TypeScript, Python, C/C++, Java, Go, Rust, PHP, Ruby, and more)
+- **Standalone MCP Server**: Node.js/JavaScript debugging via Chrome DevTools Protocol
 - **Smart Breakpoints**: AI-suggested breakpoint locations based on code analysis
 - **Conditional Breakpoints**: Break only when specific conditions are met
-- **Hang Detection**: Automatically detect infinite loops and hanging processes
-- **Source Map Support**: Debug TypeScript with full source map integration
+- **Hang Detection**: Automatically detect infinite loops and hanging processes (Node.js only)
+- **Source Map Support**: Debug TypeScript and other transpiled languages with full source map integration
 - **Code Lens**: Inline breakpoint suggestions at functions, loops, and error handlers
 
 ### 📊 Performance Profiling
@@ -28,9 +32,8 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 - **Smart Suggestions**: AI-powered debugging recommendations
 
 ### 🧪 Test Framework Support
-- **Jest**: Debug Jest tests with breakpoints
-- **Mocha**: Debug Mocha tests
-- **Vitest**: Debug Vitest tests
+- **VS Code Extension**: Jest, Mocha, Vitest (JS/TS), pytest (Python), JUnit (Java), go test (Go), cargo test (Rust), and more
+- **Standalone MCP Server**: Jest, Mocha, Vitest (Node.js only)
 
 ### 🎨 Language Server Protocol (LSP) Features
 
@@ -71,7 +74,7 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 
 1. Open VS Code
 2. Go to Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for "TypeScript MCP Debugger"
+3. Search for "MCP Debugger"
 4. Click Install
 
 ### Install the MCP Debugger Server
@@ -99,7 +102,7 @@ code --install-extension ts-mcp-debugger-1.0.0.vsix
 ### 1. Start Debugging
 
 **Option A: Use Command Palette**
-1. Open a JavaScript or TypeScript file
+1. Open any source code file (JavaScript, TypeScript, Python, Java, etc.)
 2. Press `Ctrl+Shift+P` (Cmd+Shift+P on Mac)
 3. Type "MCP Debugger: Start Debug Session"
 4. Press Enter
@@ -497,8 +500,18 @@ if (result.hung) {
 ## Requirements
 
 - **VS Code**: Version 1.85.0 or higher
-- **Node.js**: Version 16.x or higher
 - **Operating System**: Windows, macOS, or Linux
+- **For VS Code Extension (Multi-Language)**:
+  - **JavaScript/TypeScript**: Node.js 16.x or higher
+  - **Python**: Python 3.x with debugpy extension
+  - **Java**: JDK with Java Debug Server extension
+  - **C/C++**: GDB or LLDB with C/C++ extension
+  - **Go**: Go toolchain with delve extension
+  - **Rust**: Rust toolchain with CodeLLDB extension
+  - Other languages: Install appropriate VS Code debug extension
+- **For Standalone MCP Server (Node.js Only)**:
+  - **Node.js**: 16.x or higher
+  - **JavaScript/TypeScript**: Full support with source maps
 
 ## Extension Settings
 
@@ -515,8 +528,11 @@ This extension contributes the following settings:
 ## Known Issues
 
 - WebSocket connections may timeout on slow networks
-- Source maps must be inline or in the same directory
+- Source maps must be inline or in the same directory for TypeScript/transpiled languages
 - Some Node.js native modules may not be debuggable
+- **VS Code Extension**: Language-specific features depend on installed debug adapters
+- **Standalone MCP Server**: Only supports Node.js/JavaScript debugging (Python, Java, etc. not supported)
+- **Hang detection and profiling**: Node.js only (not available for other languages)
 
 ## Release Notes
 

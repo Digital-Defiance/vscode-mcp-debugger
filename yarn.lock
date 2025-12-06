@@ -5,30 +5,30 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@ai-capabilities-suite/mcp-debugger-core@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "@ai-capabilities-suite/mcp-debugger-core@npm:1.0.6"
+"@ai-capabilities-suite/mcp-debugger-core@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "@ai-capabilities-suite/mcp-debugger-core@npm:1.0.7"
   dependencies:
     source-map: "npm:^0.7.4"
     tslib: "npm:^2.3.0"
     ws: "npm:^8.18.3"
-  checksum: 10c0/84f5a34fde88e0aad4b3feb6f47cfc0dbcedc4f647dff3302483a45d1952e8a390d7c141b24096a376cf96afc86dd4c0265d0ed86f305339bca0c3dd3b558814
+  checksum: 10c0/20ef49a6c1ffa8512b3067daf07d6f5f5ce0d6f759c5d424aea7eafcb604bb0042280787e660ef423db7bc86abdf6d07bb64aabb180af3df129bc5804e871953
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
 
-"@ai-capabilities-suite/mcp-debugger-server@npm:^1.1.7":
-  version: 1.1.7
-  resolution: "@ai-capabilities-suite/mcp-debugger-server@npm:1.1.7"
+"@ai-capabilities-suite/mcp-debugger-server@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "@ai-capabilities-suite/mcp-debugger-server@npm:1.1.9"
   dependencies:
-    "@ai-capabilities-suite/mcp-debugger-core": "npm:^1.0.6"
+    "@ai-capabilities-suite/mcp-debugger-core": "npm:^1.0.7"
     "@modelcontextprotocol/sdk": "npm:^1.23.0"
     tslib: "npm:^2.3.0"
     zod: "npm:^4.1.13"
   bin:
     mcp-debugger: dist/src/cli.js
     ts-mcp-server: dist/src/cli.js
-  checksum: 10c0/7dfa3dcfe9355ef3c2772385ffd6e21a04d73b5e958bcbaca196938a5c928a65a9ca4eb369fac3a1d153f37ac563f9da374ac53f1b250ba54ac7a0f68db832d5
+  checksum: 10c0/920724211995c9a6dcbf5ef90de103c199364675abc8ba4febb5cc6a284f89a6aaa94371a3097d1a22e89b14797966c625ea2f91201c59ba4053f2a18f7bc6a8
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
@@ -553,7 +553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/vscode@npm:^1.85.0":
+"@types/vscode@npm:^1.96.0":
   version: 1.106.1
   resolution: "@types/vscode@npm:1.106.1"
   checksum: 10c0/699bb2b1932cf885bc863d1a978eeb07f263150544f56eb7a2b59f4ed521e654f9a5f3357c5b3a45e56af07b876e7936140075ba4a2acaa9641a8ad8e0ab9f05
@@ -2742,7 +2742,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^10.1.1":
+"minimatch@npm:^10.0.3, minimatch@npm:^10.1.1":
   version: 10.1.1
   resolution: "minimatch@npm:10.1.1"
   dependencies:
@@ -2757,15 +2757,6 @@ __metadata:
   dependencies:
     brace-expansion: "npm:^1.1.7"
   checksum: 10c0/0262810a8fc2e72cca45d6fd86bd349eee435eb95ac6aa45c9ea2180e7ee875ef44c32b55b5973ceabe95ea12682f6e3725cbb63d7a2d1da3ae1163c8b210311
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^5.1.0":
-  version: 5.1.6
-  resolution: "minimatch@npm:5.1.6"
-  dependencies:
-    brace-expansion: "npm:^2.0.1"
-  checksum: 10c0/3defdfd230914f22a8da203747c42ee3c405c39d4d37ffda284dac5e45b7e1f6c49aa8be606509002898e73091ff2a3bbfc59c2c6c71d4660609f63aa92f98e3
   languageName: node
   linkType: hard
 
@@ -3587,7 +3578,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.5.2, semver@npm:^7.5.4, semver@npm:^7.6.2":
+"semver@npm:^7.3.5, semver@npm:^7.5.2, semver@npm:^7.5.4, semver@npm:^7.6.2, semver@npm:^7.7.1":
   version: 7.7.3
   resolution: "semver@npm:7.7.3"
   bin:
@@ -4083,12 +4074,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ts-mcp-debugger@workspace:."
   dependencies:
-    "@ai-capabilities-suite/mcp-debugger-server": "npm:^1.1.7"
+    "@ai-capabilities-suite/mcp-debugger-server": "npm:^1.1.9"
     "@modelcontextprotocol/sdk": "npm:^0.5.0"
     "@types/glob": "npm:^9.0.0"
     "@types/mocha": "npm:^10.0.10"
     "@types/node": "npm:^20.x"
-    "@types/vscode": "npm:^1.85.0"
+    "@types/vscode": "npm:^1.96.0"
     "@vscode/debugadapter": "npm:^1.65.0"
     "@vscode/debugprotocol": "npm:^1.65.0"
     "@vscode/test-electron": "npm:^2.3.8"
@@ -4096,9 +4087,9 @@ __metadata:
     glob: "npm:^13.0.0"
     mocha: "npm:^11.7.5"
     typescript: "npm:^5.3.3"
-    vscode-languageclient: "npm:^9.0.1"
-    vscode-languageserver: "npm:^9.0.1"
-    vscode-languageserver-textdocument: "npm:^1.0.11"
+    vscode-languageclient: "npm:^10.0.0-next.15"
+    vscode-languageserver: "npm:^10.0.0-next.15"
+    vscode-languageserver-textdocument: "npm:^1.0.12"
   languageName: unknown
   linkType: soft
 
@@ -4295,56 +4286,56 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vscode-jsonrpc@npm:8.2.0":
-  version: 8.2.0
-  resolution: "vscode-jsonrpc@npm:8.2.0"
-  checksum: 10c0/0789c227057a844f5ead55c84679206227a639b9fb76e881185053abc4e9848aa487245966cc2393fcb342c4541241b015a1a2559fddd20ac1e68945c95344e6
+"vscode-jsonrpc@npm:9.0.0-next.10":
+  version: 9.0.0-next.10
+  resolution: "vscode-jsonrpc@npm:9.0.0-next.10"
+  checksum: 10c0/3ed6a3d40234371750b37b268e68a263775a675305c4dd07224060cfc73d8a864c1b80f86e4b2b35d04d093ab310326c723793cbe4129268e224b6b65cef3815
   languageName: node
   linkType: hard
 
-"vscode-languageclient@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "vscode-languageclient@npm:9.0.1"
+"vscode-languageclient@npm:^10.0.0-next.15":
+  version: 10.0.0-next.18
+  resolution: "vscode-languageclient@npm:10.0.0-next.18"
   dependencies:
-    minimatch: "npm:^5.1.0"
-    semver: "npm:^7.3.7"
-    vscode-languageserver-protocol: "npm:3.17.5"
-  checksum: 10c0/fe6638dabb0ef9915937cae2cecb74978a3e84c01f9c3f6a6bd61d0bbbb601fb694aae6253689bde30d40ce941c02068b0448268cf3e5ef08e6f9167cc7f6242
+    minimatch: "npm:^10.0.3"
+    semver: "npm:^7.7.1"
+    vscode-languageserver-protocol: "npm:3.17.6-next.15"
+  checksum: 10c0/f6a931c86d031f413b1016398900eff9fffa32221b6f8cf2526175a808d9b92e9e32620cd8fe1a42fb9ff834bed8f9c11042364c5e9054c517c7b46992309f84
   languageName: node
   linkType: hard
 
-"vscode-languageserver-protocol@npm:3.17.5":
-  version: 3.17.5
-  resolution: "vscode-languageserver-protocol@npm:3.17.5"
+"vscode-languageserver-protocol@npm:3.17.6-next.15":
+  version: 3.17.6-next.15
+  resolution: "vscode-languageserver-protocol@npm:3.17.6-next.15"
   dependencies:
-    vscode-jsonrpc: "npm:8.2.0"
-    vscode-languageserver-types: "npm:3.17.5"
-  checksum: 10c0/5f38fd80da9868d706eaa4a025f4aff9c3faad34646bcde1426f915cbd8d7e8b6c3755ce3fef6eebd256ba3145426af1085305f8a76e34276d2e95aaf339a90b
+    vscode-jsonrpc: "npm:9.0.0-next.10"
+    vscode-languageserver-types: "npm:3.17.6-next.6"
+  checksum: 10c0/58f22627b482be6665af0698a380ad5147b8df628de844ba021d6ea055df7bb66eada38fae7f4a99709a3859b1408fe81a7700c35d5bff6293500017a6c31f7f
   languageName: node
   linkType: hard
 
-"vscode-languageserver-textdocument@npm:^1.0.11":
+"vscode-languageserver-textdocument@npm:^1.0.12":
   version: 1.0.12
   resolution: "vscode-languageserver-textdocument@npm:1.0.12"
   checksum: 10c0/534349894b059602c4d97615a1147b6c4c031141c2093e59657f54e38570f5989c21b376836f13b9375419869242e9efb4066643208b21ab1e1dee111a0f00fb
   languageName: node
   linkType: hard
 
-"vscode-languageserver-types@npm:3.17.5":
-  version: 3.17.5
-  resolution: "vscode-languageserver-types@npm:3.17.5"
-  checksum: 10c0/1e1260de79a2cc8de3e46f2e0182cdc94a7eddab487db5a3bd4ee716f67728e685852707d72c059721ce500447be9a46764a04f0611e94e4321ffa088eef36f8
+"vscode-languageserver-types@npm:3.17.6-next.6":
+  version: 3.17.6-next.6
+  resolution: "vscode-languageserver-types@npm:3.17.6-next.6"
+  checksum: 10c0/44c61fc263142812a9b4da719eed30a63eed7d9a377a08e2caab50af7b8e5d0fc46aa192a4731973ef66c5460e45d56670a54a432868eadbc6d82f1f7d8142ff
   languageName: node
   linkType: hard
 
-"vscode-languageserver@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "vscode-languageserver@npm:9.0.1"
+"vscode-languageserver@npm:^10.0.0-next.15":
+  version: 10.0.0-next.15
+  resolution: "vscode-languageserver@npm:10.0.0-next.15"
   dependencies:
-    vscode-languageserver-protocol: "npm:3.17.5"
+    vscode-languageserver-protocol: "npm:3.17.6-next.15"
   bin:
     installServerIntoExtension: bin/installServerIntoExtension
-  checksum: 10c0/8a0838d77c98a211c76e54bd3a6249fc877e4e1a73322673fb0e921168d8e91de4f170f1d4ff7e8b6289d0698207afc6aba6662d4c1cd8e4bd7cae96afd6b0c2
+  checksum: 10c0/39f94ecc50b2bf5b117e52414de2528435f6f7fae823f2f7e04ee50867223e87f215c2f7e1940bfda4f9b64d97c9997451d26cd27531a980ee0e4b4c238729bc
   languageName: node
   linkType: hard
 
