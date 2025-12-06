@@ -15,6 +15,7 @@ let mcpClient: MCPDebuggerClient | undefined;
 let outputChannel: vscode.OutputChannel;
 let languageClient: LanguageClient | undefined;
 let debugContextProvider: DebugContextProvider;
+let mcpStatusBarItem: vscode.StatusBarItem | undefined;
 
 export async function activate(context: vscode.ExtensionContext) {
   outputChannel = vscode.window.createOutputChannel("MCP Debugger");
@@ -45,6 +46,14 @@ export async function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.lm.registerMcpServerDefinitionProvider(mcpProviderId, mcpProvider)
   );
+
+  // Create status bar item for MCP server
+  mcpStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+  mcpStatusBarItem.text = "$(debug-alt) MCP Debugger";
+  mcpStatusBarItem.tooltip = "MCP TypeScript Debugger - Available to GitHub Copilot";
+  mcpStatusBarItem.command = "mcp-debugger.showContext";
+  mcpStatusBarItem.show();
+  context.subscriptions.push(mcpStatusBarItem);
 
   // Initialize debug context provider
   debugContextProvider = new DebugContextProvider();
@@ -133,6 +142,9 @@ export async function activate(context: vscode.ExtensionContext) {
 }
 
 export async function deactivate() {
+  if (mcpStatusBarItem) {
+    mcpStatusBarItem.dispose();
+  }
   if (mcpClient) {
     mcpClient.stop();
   }
