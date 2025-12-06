@@ -2,13 +2,16 @@
   "name": "ts-mcp-debugger",
   "displayName": "MCP ACS TypeScript Debugger",
   "description": "Advanced debugging for Node.js and TypeScript with MCP integration. Part of the Digital Defiance AI Capabilities Suite.",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "packageManager": "yarn@4.12.0",
   "publisher": "DigitalDefiance",
   "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.96.0"
   },
+  "enabledApiProposals": [
+    "mcp"
+  ],
   "categories": [
     "Debuggers",
     "Testing",
@@ -25,6 +28,7 @@
     "profiling"
   ],
   "activationEvents": [
+    "onStartupFinished",
     "onDebug",
     "onLanguage:javascript",
     "onLanguage:typescript"
@@ -37,7 +41,242 @@
         "label": "MCP TypeScript Debugger"
       }
     ],
+    "chatParticipants": [
+      {
+        "id": "ts-mcp-debugger.participant",
+        "name": "debugger",
+        "description": "MCP TypeScript Debugger - Advanced debugging with hang detection and profiling",
+        "isSticky": true
+      }
+    ],
+    "languageModelTools": [
+      {
+        "name": "debugger_start",
+        "displayName": "Start Debugger",
+        "modelDescription": "Start a new debug session for Node.js/TypeScript",
+        "toolReferenceName": "startDebugging",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "program": { "type": "string", "description": "Path to the program to debug" },
+            "args": { "type": "array", "items": { "type": "string" }, "description": "Command line arguments" },
+            "cwd": { "type": "string", "description": "Working directory" },
+            "stopOnEntry": { "type": "boolean", "description": "Stop on entry" }
+          },
+          "required": ["program"]
+        }
+      },
+      {
+        "name": "debugger_stop_session",
+        "displayName": "Stop Debugger",
+        "modelDescription": "Stop the current debug session",
+        "toolReferenceName": "stopDebugging",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_set_breakpoint",
+        "displayName": "Set Breakpoint",
+        "modelDescription": "Set a breakpoint at a specific file and line",
+        "toolReferenceName": "setBreakpoint",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" },
+            "file": { "type": "string", "description": "File path" },
+            "line": { "type": "number", "description": "Line number (1-based)" },
+            "condition": { "type": "string", "description": "Breakpoint condition" },
+            "logMessage": { "type": "string", "description": "Log message" }
+          },
+          "required": ["sessionId", "file", "line"]
+        }
+      },
+      {
+        "name": "debugger_continue",
+        "displayName": "Continue",
+        "modelDescription": "Continue execution",
+        "toolReferenceName": "continueExecution",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_step_over",
+        "displayName": "Step Over",
+        "modelDescription": "Step over the current line",
+        "toolReferenceName": "stepOver",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_step_into",
+        "displayName": "Step Into",
+        "modelDescription": "Step into the current line",
+        "toolReferenceName": "stepInto",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_step_out",
+        "displayName": "Step Out",
+        "modelDescription": "Step out of the current function",
+        "toolReferenceName": "stepOut",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_pause",
+        "displayName": "Pause",
+        "modelDescription": "Pause execution",
+        "toolReferenceName": "pauseExecution",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_get_stack",
+        "displayName": "Get Stack Trace",
+        "modelDescription": "Get the current stack trace",
+        "toolReferenceName": "getStackTrace",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" },
+            "threadId": { "type": "number", "description": "Thread ID (optional)" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_get_local_variables",
+        "displayName": "Get Local Variables",
+        "modelDescription": "Get local variables for the current stack frame",
+        "toolReferenceName": "getLocalVariables",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_inspect_object",
+        "displayName": "Inspect Object",
+        "modelDescription": "Inspect a variable or expression",
+        "toolReferenceName": "inspectObject",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" },
+            "expression": { "type": "string", "description": "Expression to evaluate" }
+          },
+          "required": ["sessionId", "expression"]
+        }
+      },
+      {
+        "name": "debugger_detect_hang",
+        "displayName": "Detect Hang",
+        "modelDescription": "Detect infinite loops and hanging code",
+        "toolReferenceName": "detectHang",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" },
+            "timeout": { "type": "number", "description": "Timeout in milliseconds" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_start_cpu_profile",
+        "displayName": "Start CPU Profile",
+        "modelDescription": "Start CPU profiling",
+        "toolReferenceName": "startCpuProfile",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      },
+      {
+        "name": "debugger_stop_cpu_profile",
+        "displayName": "Stop CPU Profile",
+        "modelDescription": "Stop CPU profiling and get results",
+        "toolReferenceName": "stopCpuProfile",
+        "canBeReferencedInPrompt": true,
+        "tags": ["debugger", "mcp"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sessionId": { "type": "string", "description": "The debug session ID" }
+          },
+          "required": ["sessionId"]
+        }
+      }
+    ],
     "commands": [
+      {
+        "command": "mcp-debugger.configureMcp",
+        "title": "MCP Debugger: Add to Copilot MCP Servers",
+        "icon": "$(add)"
+      },
       {
         "command": "mcp-debugger.start",
         "title": "MCP Debugger: Start Debug Session",
@@ -107,6 +346,17 @@
           ],
           "default": "info",
           "description": "Log level for MCP debugger"
+        },
+        "mcp.servers.ts-mcp-debugger": {
+          "type": "object",
+          "default": {
+            "command": "npx",
+            "args": [
+              "-y",
+              "@ai-capabilities-suite/mcp-debugger-server"
+            ]
+          },
+          "description": "MCP TypeScript Debugger server configuration"
         }
       }
     },
@@ -218,6 +468,45 @@
             }
           }
         ]
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "ts-mcp-debugger.walkthrough",
+        "title": "Get Started with MCP Debugger",
+        "description": "Learn how to use AI-powered debugging with GitHub Copilot",
+        "steps": [
+          {
+            "id": "install",
+            "title": "Extension Installed",
+            "description": "MCP Debugger is now active and available to GitHub Copilot.\n[Open Settings](command:workbench.action.openSettings?%5B%22mcp-debugger%22%5D)",
+            "media": {
+              "markdown": "README.md"
+            }
+          },
+          {
+            "id": "copilot",
+            "title": "Use with Copilot",
+            "description": "Ask Copilot to debug your code:\n- Type `@debugger detect hangs`\n- Or use natural language: \"debug this file\"\n[Try it now](command:workbench.action.chat.open)",
+            "media": {
+              "markdown": "README.md"
+            }
+          }
+        ]
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "mcp-debugger.start",
+        "key": "ctrl+shift+d ctrl+shift+m",
+        "mac": "cmd+shift+d cmd+shift+m",
+        "when": "editorLangId == javascript || editorLangId == typescript"
+      },
+      {
+        "command": "mcp-debugger.detectHang",
+        "key": "ctrl+shift+d ctrl+shift+h",
+        "mac": "cmd+shift+d cmd+shift+h",
+        "when": "editorLangId == javascript || editorLangId == typescript"
       }
     ],
     "menus": {
