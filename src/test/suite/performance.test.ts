@@ -89,8 +89,11 @@ suite("Performance Test Suite", () => {
     const firstDuration = durations[0];
     const lastDuration = durations[durations.length - 1];
 
+    // If both are 0ms (very fast), that's acceptable
+    // Otherwise, check that performance hasn't degraded significantly
     assert.ok(
-      lastDuration < firstDuration * 2,
+      (firstDuration === 0 && lastDuration === 0) ||
+        lastDuration < firstDuration * 2,
       `Performance degraded: first=${firstDuration}ms, last=${lastDuration}ms`
     );
   });
@@ -140,10 +143,7 @@ suite("Performance Test Suite", () => {
     config.get("autoStart");
     const duration = Date.now() - start;
 
-    assert.ok(
-      duration < 100,
-      "Extension should remain responsive (< 100ms)"
-    );
+    assert.ok(duration < 100, "Extension should remain responsive (< 100ms)");
   });
 
   test("Memory usage should be reasonable", async function () {
@@ -164,7 +164,7 @@ suite("Performance Test Suite", () => {
         });
 
         await vscode.window.showTextDocument(doc);
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         await vscode.commands.executeCommand(
           "workbench.action.closeActiveEditor"
         );
