@@ -5,30 +5,30 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@ai-capabilities-suite/mcp-debugger-core@npm:^1.0.9":
-  version: 1.0.9
-  resolution: "@ai-capabilities-suite/mcp-debugger-core@npm:1.0.9"
+"@ai-capabilities-suite/mcp-debugger-core@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "@ai-capabilities-suite/mcp-debugger-core@npm:1.0.10"
   dependencies:
     source-map: "npm:^0.7.4"
     tslib: "npm:^2.3.0"
     ws: "npm:^8.18.3"
-  checksum: 10c0/b7f5b14303ae60fee261c7d245f274a199b7464b200fd358d3197aa3a56e39032ff7baecbcd5bf7579d46314261778a0c5ef450b2b62a524e94c838f5f285d4b
+  checksum: 10c0/4c244e77006053093688e8aea3bd196f61d6aab60ad89e773153afb2c4c6bf925ba3c83613121370666b5bc0e7e7e97bec93b2476bd7a91ecbd343f960ebd34f
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
 
-"@ai-capabilities-suite/mcp-debugger-server@npm:^1.1.11":
-  version: 1.1.11
-  resolution: "@ai-capabilities-suite/mcp-debugger-server@npm:1.1.11"
+"@ai-capabilities-suite/mcp-debugger-server@npm:^1.1.12":
+  version: 1.1.12
+  resolution: "@ai-capabilities-suite/mcp-debugger-server@npm:1.1.12"
   dependencies:
-    "@ai-capabilities-suite/mcp-debugger-core": "npm:^1.0.9"
+    "@ai-capabilities-suite/mcp-debugger-core": "npm:^1.0.10"
     "@modelcontextprotocol/sdk": "npm:^1.23.0"
     tslib: "npm:^2.3.0"
     zod: "npm:^4.1.13"
   bin:
     mcp-debugger: dist/src/cli.js
     ts-mcp-server: dist/src/cli.js
-  checksum: 10c0/9c651914d1422a0bd87293b9ffc1adfb25c21d6ea42b048278746ef51c46fdb14d2faca489c492149bcd881e7ed1a2754f2ad83da29dfc0eabe159ad05db7084
+  checksum: 10c0/e0ba6f66a1130acb2cfce1639857e84e35daa7f37268407bd31cace662676cd407a6bb6cfbac7fef72a8434e37a77e038495b5d04a03fd5c3bcb157f61c6a04b
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
@@ -4074,7 +4074,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ts-mcp-debugger@workspace:."
   dependencies:
-    "@ai-capabilities-suite/mcp-debugger-server": "npm:^1.1.11"
+    "@ai-capabilities-suite/mcp-debugger-server": "npm:^1.1.12"
     "@modelcontextprotocol/sdk": "npm:^0.5.0"
     "@types/glob": "npm:^9.0.0"
     "@types/mocha": "npm:^10.0.10"
