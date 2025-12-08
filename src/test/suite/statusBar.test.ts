@@ -1,6 +1,5 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import { getDiagnosticInfo } from "@ai-capabilities-suite/vscode-shared-status-bar";
 
 suite("Status Bar Tests", () => {
   test("Status bar item should be created after activation", async function () {
@@ -35,20 +34,9 @@ suite("Status Bar Tests", () => {
       await ext.activate();
     }
 
-    // Get diagnostic info from shared status bar
-    const diagnosticInfo = getDiagnosticInfo();
-
-    // Verify that the debugger extension is registered
-    assert.ok(
-      diagnosticInfo.registeredExtensions.includes("mcp-debugger"),
-      "mcp-debugger should be registered with shared status bar"
-    );
-
-    // Verify that the status bar exists
-    assert.ok(
-      diagnosticInfo.statusBarExists,
-      "Status bar item should exist after registration"
-    );
+    // Note: We cannot verify registeredExtensions via getDiagnosticInfo() here because
+    // the test runner uses a different instance of the shared-status-bar module than the extension.
+    // Instead, we verify that the diagnostic command (which is registered by the shared module) exists.
 
     // Verify that the diagnostic command is registered
     const commands = await vscode.commands.getCommands(true);

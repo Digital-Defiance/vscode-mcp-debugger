@@ -275,7 +275,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   if (autoStart) {
     try {
-      mcpClient = new MCPDebuggerClient(outputChannel);
+      mcpClient = new MCPDebuggerClient(context, outputChannel);
       await mcpClient.start();
       debugContextProvider.setMCPClient(mcpClient);
       outputChannel.appendLine("MCP Debugger server started successfully");
@@ -356,38 +356,25 @@ export async function activate(context: vscode.ExtensionContext) {
   outputChannel.appendLine("MCP Debugger extension activated");
   outputChannel.appendLine("=".repeat(60));
 
-  // Show notification to confirm activation
-  vscode.window.showInformationMessage(
-    "MCP Debugger extension activated! Check Output panel for details."
-  );
-
-  // Configure shared status bar with our output channel
-  // This also registers the mcp-acs.diagnostics command globally
-  outputChannel.appendLine("Configuring shared status bar...");
-  try {
-    setOutputChannel(outputChannel);
-    outputChannel.appendLine("✓ Shared status bar output channel configured");
-    outputChannel.appendLine(
-      "✓ Diagnostic command 'mcp-acs.diagnostics' is now available in the command palette"
-    );
-  } catch (error) {
-    outputChannel.appendLine(`✗ Error configuring shared status bar: ${error}`);
-    console.error("Error configuring shared status bar:", error);
-  }
-
-  // Register with shared status bar
+  // Register with shared status bar FIRST
   outputChannel.appendLine("Registering extension with shared status bar...");
   try {
-    registerExtension("mcp-debugger");
+    await registerExtension("mcp-debugger");
     outputChannel.appendLine("✓ Extension registered with shared status bar");
-    outputChannel.appendLine(
-      "✓ Status bar icon should now be visible in the bottom right"
-    );
   } catch (error) {
     outputChannel.appendLine(
       `✗ Error registering with shared status bar: ${error}`
     );
     console.error("Error registering with shared status bar:", error);
+  }
+
+  // Configure shared status bar output channel (idempotent - only first call takes effect)
+  try {
+    setOutputChannel(outputChannel);
+    outputChannel.appendLine("✓ Shared status bar output channel configured");
+  } catch (error) {
+    outputChannel.appendLine(`✗ Error configuring shared status bar: ${error}`);
+    console.error("Error configuring shared status bar:", error);
   }
 
   outputChannel.appendLine("=".repeat(60));
@@ -409,7 +396,7 @@ export async function activate(context: vscode.ExtensionContext) {
 }
 
 export async function deactivate() {
-  unregisterExtension("mcp-debugger");
+  await unregisterExtension("mcp-debugger");
   if (mcpClient) {
     mcpClient.stop();
   }
@@ -660,12 +647,18 @@ async function setSmartBreakpoint() {
 
 async function startCPUProfiling() {
   if (!mcpClient) {
+    if (process.env.VSCODE_TEST_MODE === "true") {
+      throw new Error("MCP Debugger server not running");
+    }
     vscode.window.showErrorMessage("MCP Debugger server not running");
     return;
   }
 
   const session = vscode.debug.activeDebugSession;
   if (!session) {
+    if (process.env.VSCODE_TEST_MODE === "true") {
+      throw new Error("No active debug session");
+    }
     vscode.window.showErrorMessage("No active debug session");
     return;
   }
@@ -680,12 +673,18 @@ async function startCPUProfiling() {
 
 async function takeHeapSnapshot() {
   if (!mcpClient) {
+    if (process.env.VSCODE_TEST_MODE === "true") {
+      throw new Error("MCP Debugger server not running");
+    }
     vscode.window.showErrorMessage("MCP Debugger server not running");
     return;
   }
 
   const session = vscode.debug.activeDebugSession;
   if (!session) {
+    if (process.env.VSCODE_TEST_MODE === "true") {
+      throw new Error("No active debug session");
+    }
     vscode.window.showErrorMessage("No active debug session");
     return;
   }

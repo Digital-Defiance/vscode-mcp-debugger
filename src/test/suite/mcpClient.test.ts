@@ -4,6 +4,9 @@ import * as vscode from "vscode";
 
 suite("MCP Client Test Suite", () => {
   let outputChannel: vscode.OutputChannel;
+  const mockContext = {
+    extensionPath: process.cwd(),
+  } as vscode.ExtensionContext;
 
   setup(() => {
     outputChannel = vscode.window.createOutputChannel("MCP Test");
@@ -14,12 +17,12 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("Should create MCP client instance", () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
     assert.ok(client, "Client should be created");
   });
 
   test("Should have required methods", () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     assert.ok(typeof client.start === "function", "Should have start method");
     assert.ok(typeof client.stop === "function", "Should have stop method");
@@ -44,7 +47,7 @@ suite("MCP Client Test Suite", () => {
   test("Should handle start/stop lifecycle", async function () {
     this.timeout(10000);
 
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.start();

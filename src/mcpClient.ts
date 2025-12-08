@@ -7,7 +7,10 @@ export class MCPDebuggerClient {
   private sessionId: string | undefined;
   private disposed = false;
 
-  constructor(private outputChannel: vscode.OutputChannel) {}
+  constructor(
+    private context: vscode.ExtensionContext,
+    private outputChannel: vscode.OutputChannel
+  ) {}
 
   private safeLog(message: string): void {
     try {
@@ -27,7 +30,34 @@ export class MCPDebuggerClient {
     let command: string;
     let args: string[] = [];
 
-    if (serverPath && serverPath.length > 0) {
+    if (process.env.VSCODE_TEST_MODE === "true") {
+      let extensionPath = this.context.extensionUri
+        ? this.context.extensionUri.fsPath
+        : this.context.extensionPath;
+
+      if (!extensionPath) {
+        // Fallback to getting extension from registry
+        const extension = vscode.extensions.getExtension(
+          "DigitalDefiance.ts-mcp-debugger"
+        );
+        if (extension) {
+          extensionPath = extension.extensionPath;
+        }
+      }
+
+      if (!extensionPath) {
+        throw new Error("Extension path could not be determined");
+      }
+
+      // Try to find local server in monorepo
+      const localServerPath = path.resolve(
+        extensionPath,
+        "../mcp-debugger-server/dist/src/cli.js"
+      );
+      command = "node";
+      args = [localServerPath];
+      this.safeLog(`[Test Mode] Using local server: ${localServerPath}`);
+    } else if (serverPath && serverPath.length > 0) {
       command = serverPath;
     } else {
       // Use bundled server or npx
@@ -46,7 +76,7 @@ export class MCPDebuggerClient {
     });
 
     this.serverProcess.stderr?.on("data", (data) => {
-      this.safeLog(`[MCP Server Error] ${data.toString()}`);
+      this.safeLog(`[MCP Server Log] ${data.toString()}`);
     });
 
     this.serverProcess.on("error", (error) => {
