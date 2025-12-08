@@ -98,10 +98,25 @@ async function configureMcpServer(): Promise<void> {
 }
 
 export async function activate(context: vscode.ExtensionContext) {
-  outputChannel = vscode.window.createOutputChannel("MCP Debugger", {
-    log: true,
-  });
-  outputChannel.appendLine("MCP Debugger extension activating...");
+  // Log to console first in case output channel creation fails
+  console.log("=".repeat(60));
+  console.log("MCP Debugger extension activate() called");
+  console.log(`Activation time: ${new Date().toISOString()}`);
+  console.log("=".repeat(60));
+
+  try {
+    outputChannel = vscode.window.createOutputChannel("MCP Debugger", {
+      log: true,
+    });
+    outputChannel.appendLine("=".repeat(60));
+    outputChannel.appendLine("MCP Debugger extension activating...");
+    outputChannel.appendLine(`Activation time: ${new Date().toISOString()}`);
+    outputChannel.appendLine("=".repeat(60));
+    console.log("✓ Output channel created successfully");
+  } catch (error) {
+    console.error("✗ Failed to create output channel:", error);
+    throw error;
+  }
 
   // Register MCP server definition provider (for future MCP protocol support)
   try {
@@ -337,17 +352,60 @@ export async function activate(context: vscode.ExtensionContext) {
     })
   );
 
+  outputChannel.appendLine("=".repeat(60));
   outputChannel.appendLine("MCP Debugger extension activated");
+  outputChannel.appendLine("=".repeat(60));
+
+  // Show notification to confirm activation
+  vscode.window.showInformationMessage(
+    "MCP Debugger extension activated! Check Output panel for details."
+  );
 
   // Configure shared status bar with our output channel
-  setOutputChannel(outputChannel);
-  outputChannel.appendLine("Shared status bar output channel configured");
+  // This also registers the mcp-acs.diagnostics command globally
+  outputChannel.appendLine("Configuring shared status bar...");
+  try {
+    setOutputChannel(outputChannel);
+    outputChannel.appendLine("✓ Shared status bar output channel configured");
+    outputChannel.appendLine(
+      "✓ Diagnostic command 'mcp-acs.diagnostics' is now available in the command palette"
+    );
+  } catch (error) {
+    outputChannel.appendLine(`✗ Error configuring shared status bar: ${error}`);
+    console.error("Error configuring shared status bar:", error);
+  }
 
   // Register with shared status bar
-  registerExtension("mcp-debugger");
+  outputChannel.appendLine("Registering extension with shared status bar...");
+  try {
+    registerExtension("mcp-debugger");
+    outputChannel.appendLine("✓ Extension registered with shared status bar");
+    outputChannel.appendLine(
+      "✓ Status bar icon should now be visible in the bottom right"
+    );
+  } catch (error) {
+    outputChannel.appendLine(
+      `✗ Error registering with shared status bar: ${error}`
+    );
+    console.error("Error registering with shared status bar:", error);
+  }
+
+  outputChannel.appendLine("=".repeat(60));
+  outputChannel.appendLine(
+    "To verify status bar: Run command 'MCP ACS: Show Status Bar Diagnostics'"
+  );
+  outputChannel.appendLine("=".repeat(60));
+
+  // Show the output channel so user can see activation logs
+  outputChannel.show(true); // true = preserveFocus
+
   context.subscriptions.push({
     dispose: () => unregisterExtension("mcp-debugger"),
   });
+
+  console.log("=".repeat(60));
+  console.log("✓ MCP Debugger extension activation completed successfully");
+  console.log("=".repeat(60));
 }
 
 export async function deactivate() {
