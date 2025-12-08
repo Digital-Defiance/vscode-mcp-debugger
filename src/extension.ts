@@ -14,6 +14,7 @@ import { DebugContextProvider } from "./debugContextProvider";
 import {
   registerExtension,
   unregisterExtension,
+  setOutputChannel,
 } from "@ai-capabilities-suite/vscode-shared-status-bar";
 
 let mcpClient: MCPDebuggerClient | undefined;
@@ -337,6 +338,10 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   outputChannel.appendLine("MCP Debugger extension activated");
+
+  // Configure shared status bar with our output channel
+  setOutputChannel(outputChannel);
+  outputChannel.appendLine("Shared status bar output channel configured");
 
   // Register with shared status bar
   registerExtension("mcp-debugger");
