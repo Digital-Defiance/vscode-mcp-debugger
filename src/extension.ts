@@ -11,12 +11,15 @@ import { MCPDebuggerClient } from "./mcpClient";
 import { DebugConfigurationProvider } from "./debugConfigProvider";
 import { MCPDebugAdapterDescriptorFactory } from "./debugAdapterFactory";
 import { DebugContextProvider } from "./debugContextProvider";
+import {
+  registerExtension,
+  unregisterExtension,
+} from "@ai-capabilities-suite/vscode-shared-status-bar";
 
 let mcpClient: MCPDebuggerClient | undefined;
 let outputChannel: vscode.LogOutputChannel;
 let languageClient: LanguageClient | undefined;
 let debugContextProvider: DebugContextProvider;
-let mcpStatusBarItem: vscode.StatusBarItem | undefined;
 
 /**
  * Add this MCP server to the workspace mcp.json configuration
@@ -94,7 +97,9 @@ async function configureMcpServer(): Promise<void> {
 }
 
 export async function activate(context: vscode.ExtensionContext) {
-  outputChannel = vscode.window.createOutputChannel("MCP Debugger", { log: true });
+  outputChannel = vscode.window.createOutputChannel("MCP Debugger", {
+    log: true,
+  });
   outputChannel.appendLine("MCP Debugger extension activating...");
 
   // Register MCP server definition provider (for future MCP protocol support)
@@ -242,18 +247,6 @@ export async function activate(context: vscode.ExtensionContext) {
     );
   }
 
-  // Create status bar item for MCP server
-  mcpStatusBarItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Right,
-    100
-  );
-  mcpStatusBarItem.text = "$(debug-alt) MCP Debugger";
-  mcpStatusBarItem.tooltip =
-    "MCP TypeScript Debugger - Available to GitHub Copilot";
-  mcpStatusBarItem.command = "mcp-debugger.showContext";
-  mcpStatusBarItem.show();
-  context.subscriptions.push(mcpStatusBarItem);
-
   // Initialize debug context provider
   debugContextProvider = new DebugContextProvider();
 
@@ -344,12 +337,16 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   outputChannel.appendLine("MCP Debugger extension activated");
+
+  // Register with shared status bar
+  registerExtension("mcp-debugger");
+  context.subscriptions.push({
+    dispose: () => unregisterExtension("mcp-debugger"),
+  });
 }
 
 export async function deactivate() {
-  if (mcpStatusBarItem) {
-    mcpStatusBarItem.dispose();
-  }
+  unregisterExtension("mcp-debugger");
   if (mcpClient) {
     mcpClient.stop();
   }
