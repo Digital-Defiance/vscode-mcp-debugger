@@ -359,7 +359,33 @@ export async function activate(context: vscode.ExtensionContext) {
   // Register with shared status bar FIRST
   outputChannel.appendLine("Registering extension with shared status bar...");
   try {
-    await registerExtension("mcp-debugger");
+    await registerExtension("mcp-debugger", {
+      displayName: "MCP Debugger",
+      status: "ok",
+      settingsQuery: "mcp-debugger",
+      actions: [
+        {
+          label: "Start Debug Session",
+          command: "mcp-debugger.start",
+          description: "Start debugging current file",
+        },
+        {
+          label: "Detect Hangs",
+          command: "mcp-debugger.detectHang",
+          description: "Check for infinite loops",
+        },
+        {
+          label: "Profile CPU",
+          command: "mcp-debugger.profileCPU",
+          description: "Analyze performance",
+        },
+        {
+          label: "Take Heap Snapshot",
+          command: "mcp-debugger.profileMemory",
+          description: "Analyze memory usage",
+        },
+      ],
+    });
     outputChannel.appendLine("✓ Extension registered with shared status bar");
   } catch (error) {
     outputChannel.appendLine(
