@@ -61,7 +61,7 @@ export class MCPDebuggerClient {
       command = serverPath;
     } else {
       // Use bundled server or npx
-      command = "npx";
+      command = process.platform === "win32" ? "npx.cmd" : "npx";
       args = ["@ai-capabilities-suite/mcp-debugger-server"];
     }
 

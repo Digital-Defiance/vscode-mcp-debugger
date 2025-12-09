@@ -17,9 +17,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ai-capabilities-suite/mcp-debugger-server@npm:^1.1.14":
-  version: 1.1.14
-  resolution: "@ai-capabilities-suite/mcp-debugger-server@npm:1.1.14"
+"@ai-capabilities-suite/mcp-debugger-server@npm:^1.1.16":
+  version: 1.1.16
+  resolution: "@ai-capabilities-suite/mcp-debugger-server@npm:1.1.16"
   dependencies:
     "@ai-capabilities-suite/mcp-debugger-core": "npm:^1.0.15"
     "@modelcontextprotocol/sdk": "npm:^1.23.0"
@@ -28,7 +28,7 @@ __metadata:
   bin:
     mcp-debugger: dist/src/cli.js
     ts-mcp-server: dist/src/cli.js
-  checksum: 10c0/fd5d23a6268adc364133d1381b0ddefd113deb04878a62cf27bf7aba1e4402b9838f990dbedbdbb74a29bd64d30a2be7f88ba13d6441c5135be8c3d8edcb2ed3
+  checksum: 10c0/580cfd06a69b2c907e5970f08dcdf00f28ea9f062efd835e7cdf9573cac75db50fa049e44aec15e9940e96fda2396edefd9ae8b3ac9b1c0165125a20c09999f3
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64)
   languageName: node
   linkType: hard
@@ -4354,7 +4354,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ts-mcp-debugger@workspace:."
   dependencies:
-    "@ai-capabilities-suite/mcp-debugger-server": "npm:^1.1.14"
+    "@ai-capabilities-suite/mcp-debugger-server": "npm:^1.1.16"
     "@ai-capabilities-suite/vscode-shared-status-bar": "npm:^1.0.21"
     "@modelcontextprotocol/sdk": "npm:^0.5.0"
     "@types/glob": "npm:^9.0.0"
