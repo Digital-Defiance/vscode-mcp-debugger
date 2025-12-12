@@ -1,8 +1,8 @@
-# MCP Debugger - Installation Guide
+# MCP ACS Debugger - Installation Guide
 
 ## Prerequisites
 
-Before installing the MCP Debugger extension, ensure you have:
+Before installing the MCP ACS Debugger extension, ensure you have:
 
 - **VS Code**: Version 1.85.0 or higher
 - **Node.js**: Version 16.x or higher
@@ -16,7 +16,7 @@ Once published, you can install directly from the VS Code Marketplace:
 
 1. Open VS Code
 2. Click on the Extensions icon in the sidebar (or press `Ctrl+Shift+X` / `Cmd+Shift+X`)
-3. Search for "MCP Debugger"
+3. Search for "MCP ACS Debugger"
 4. Click the "Install" button
 5. Reload VS Code when prompted
 
@@ -25,6 +25,7 @@ Once published, you can install directly from the VS Code Marketplace:
 If you have a `.vsix` file:
 
 #### Using VS Code UI
+
 1. Open VS Code
 2. Go to Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 3. Click the "..." menu at the top of the Extensions view
@@ -33,6 +34,7 @@ If you have a `.vsix` file:
 6. Reload VS Code when prompted
 
 #### Using Command Line
+
 ```bash
 code --install-extension mcp-debugger-1.0.0.vsix
 ```
@@ -61,15 +63,16 @@ code --install-extension mcp-debugger-1.0.0.vsix
 
 ## Post-Installation Setup
 
-### 1. Install MCP Debugger Server
+### 1. Install MCP ACS Debugger Server
 
-The extension requires the MCP Debugger server to function. Install it globally:
+The extension requires the MCP ACS Debugger server to function. Install it globally:
 
 ```bash
 npm install -g @ai-capabilities-suite/mcp-debugger-server
 ```
 
 Or use it via npx (no installation required):
+
 ```bash
 # The extension will automatically use npx if no server path is configured
 ```
@@ -94,8 +97,8 @@ Open VS Code settings (`Ctrl+,` / `Cmd+,`) and configure:
 
 1. Open a JavaScript or TypeScript file
 2. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-3. Type "MCP Debugger" - you should see the extension commands
-4. Check the Output panel (View → Output) and select "MCP Debugger" to see logs
+3. Type "MCP ACS Debugger" - you should see the extension commands
+4. Check the Output panel (View → Output) and select "MCP ACS Debugger" to see logs
 
 ## Troubleshooting Installation
 
@@ -104,6 +107,7 @@ Open VS Code settings (`Ctrl+,` / `Cmd+,`) and configure:
 **Problem**: Extension doesn't show up in Extensions view
 
 **Solution**:
+
 1. Restart VS Code
 2. Check if the extension is disabled: Extensions → Filter → Show Disabled Extensions
 3. Enable the extension if it's disabled
@@ -111,10 +115,11 @@ Open VS Code settings (`Ctrl+,` / `Cmd+,`) and configure:
 
 ### Server Not Starting
 
-**Problem**: "MCP Debugger server not running" error
+**Problem**: "MCP ACS Debugger server not running" error
 
 **Solution**:
-1. Install Node.js: https://nodejs.org/
+
+1. Install Node.js: <https://nodejs.org/>
 2. Install MCP server: `npm install -g @ai-capabilities-suite/mcp-debugger-server`
 3. Check Node.js version: `node --version` (must be 16.x+)
 4. Check npm version: `npm --version`
@@ -125,6 +130,7 @@ Open VS Code settings (`Ctrl+,` / `Cmd+,`) and configure:
 **Problem**: Permission denied when installing globally
 
 **Solution**:
+
 ```bash
 # Option 1: Use sudo (not recommended)
 sudo npm install -g @ai-capabilities-suite/mcp-debugger-server
@@ -142,7 +148,8 @@ npm install -g @ai-capabilities-suite/mcp-debugger-server
 **Problem**: Extension fails to activate
 
 **Solution**:
-1. Check the Output panel: View → Output → MCP Debugger
+
+1. Check the Output panel: View → Output → MCP ACS Debugger
 2. Look for error messages
 3. Try disabling other extensions that might conflict
 4. Reinstall the extension
@@ -153,6 +160,7 @@ npm install -g @ai-capabilities-suite/mcp-debugger-server
 **Problem**: "Unable to install extension" error
 
 **Solution**:
+
 1. Ensure the `.vsix` file is not corrupted
 2. Check file permissions
 3. Try installing from command line: `code --install-extension path/to/extension.vsix`
@@ -164,27 +172,32 @@ npm install -g @ai-capabilities-suite/mcp-debugger-server
 ## Updating the Extension
 
 ### From Marketplace
+
 VS Code will automatically notify you of updates. Click "Update" when prompted.
 
 ### Manual Update
+
 1. Uninstall the old version
 2. Install the new version using any of the methods above
 
 ## Uninstalling
 
 ### Using VS Code UI
+
 1. Go to Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`)
-2. Find "MCP Debugger"
+2. Find "MCP ACS Debugger"
 3. Click the gear icon
 4. Select "Uninstall"
 5. Reload VS Code
 
 ### Using Command Line
+
 ```bash
 code --uninstall-extension mcp-debugger.mcp-debugger
 ```
 
 ### Clean Uninstall
+
 To remove all extension data:
 
 ```bash
@@ -205,16 +218,19 @@ rm -rf ~/.vscode/extensions/mcp-debugger.*
 ## Platform-Specific Notes
 
 ### Windows
+
 - Use PowerShell or Command Prompt for npm commands
 - Paths use backslashes: `C:\path\to\file`
 - May need to run as Administrator for global installs
 
 ### macOS
+
 - Use Terminal for npm commands
 - May need to configure npm prefix to avoid sudo
 - Paths use forward slashes: `/path/to/file`
 
 ### Linux
+
 - Use Terminal for npm commands
 - May need to configure npm prefix to avoid sudo
 - Ensure Node.js is in PATH
@@ -225,8 +241,8 @@ rm -rf ~/.vscode/extensions/mcp-debugger.*
 If you encounter issues:
 
 1. **Check Documentation**: Read the [README](README.md) and [CHANGELOG](CHANGELOG.md)
-2. **Check Logs**: View → Output → MCP Debugger
-3. **Search Issues**: https://github.com/yourusername/mcp-debugger/issues
+2. **Check Logs**: View → Output → MCP ACS Debugger
+3. **Search Issues**: <https://github.com/yourusername/mcp-debugger/issues>
 4. **Report Bug**: Create a new issue with:
    - VS Code version
    - Node.js version

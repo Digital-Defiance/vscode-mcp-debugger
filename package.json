@@ -2,7 +2,7 @@
   "name": "ts-mcp-debugger",
   "displayName": "MCP ACS Debugger",
   "description": "AI-powered debugging for VS Code with multi-language support. Integrates with GitHub Copilot and AI agents through Model Context Protocol. Debug JavaScript, TypeScript, Python, Java, C/C++, Go, Rust, and more.",
-  "version": "1.5.21",
+  "version": "1.5.22",
   "packageManager": "yarn@4.12.0",
   "publisher": "DigitalDefiance",
   "icon": "images/icon.png",
@@ -41,12 +41,6 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "mcpServerDefinitionProviders": [
-      {
-        "id": "ts-mcp-debugger.mcp-provider",
-        "label": "Node.js Debugger (MCP)"
-      }
-    ],
     "chatParticipants": [
       {
         "id": "ts-mcp-debugger.participant",
@@ -428,32 +422,32 @@
     "commands": [
       {
         "command": "mcp-debugger.configureMcp",
-        "title": "MCP Debugger: Add to Copilot MCP Servers",
+        "title": "MCP ACS Debugger: Add to Copilot MCP Servers",
         "icon": "$(add)"
       },
       {
         "command": "mcp-debugger.start",
-        "title": "MCP Debugger: Start Debug Session",
+        "title": "MCP ACS Debugger: Start Debug Session",
         "icon": "$(debug-start)"
       },
       {
         "command": "mcp-debugger.detectHang",
-        "title": "MCP Debugger: Detect Hanging Process",
+        "title": "MCP ACS Debugger: Detect Hanging Process",
         "icon": "$(watch)"
       },
       {
         "command": "mcp-debugger.setBreakpoint",
-        "title": "MCP Debugger: Set Smart Breakpoint",
+        "title": "MCP ACS Debugger: Set Smart Breakpoint",
         "icon": "$(debug-breakpoint)"
       },
       {
         "command": "mcp-debugger.profileCPU",
-        "title": "MCP Debugger: Start CPU Profiling",
+        "title": "MCP ACS Debugger: Start CPU Profiling",
         "icon": "$(graph)"
       },
       {
         "command": "mcp-debugger.profileMemory",
-        "title": "MCP Debugger: Take Heap Snapshot",
+        "title": "MCP ACS Debugger: Take Heap Snapshot",
         "icon": "$(database)"
       },
       {
@@ -463,7 +457,7 @@
       }
     ],
     "configuration": {
-      "title": "MCP Debugger",
+      "title": "MCP ACS Debugger",
       "properties": {
         "mcp-debugger.serverPath": {
           "type": "string",
@@ -515,7 +509,7 @@
               "@ai-capabilities-suite/mcp-debugger-server"
             ]
           },
-          "description": "MCP Debugger server configuration"
+          "description": "MCP ACS Debugger server configuration"
         }
       }
     },
@@ -632,13 +626,13 @@
     "walkthroughs": [
       {
         "id": "ts-mcp-debugger.walkthrough",
-        "title": "Get Started with MCP Debugger",
+        "title": "Get Started with MCP ACS Debugger",
         "description": "Learn how to use AI-powered debugging with GitHub Copilot",
         "steps": [
           {
             "id": "install",
             "title": "Extension Installed",
-            "description": "MCP Debugger is now active and available to GitHub Copilot.\n[Open Settings](command:workbench.action.openSettings?%5B%22mcp-debugger%22%5D)",
+            "description": "MCP ACS Debugger is now active and available to GitHub Copilot.\n[Open Settings](command:workbench.action.openSettings?%5B%22mcp-debugger%22%5D)",
             "media": {
               "markdown": "README.md"
             }
@@ -713,7 +707,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@ai-capabilities-suite/mcp-debugger-server": "^1.5.21",
+    "@ai-capabilities-suite/mcp-debugger-server": "^1.5.22",
     "@ai-capabilities-suite/vscode-shared-status-bar": "^1.0.21",
     "@modelcontextprotocol/sdk": "^0.5.0",
     "@vscode/debugadapter": "^1.65.0",

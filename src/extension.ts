@@ -93,23 +93,23 @@ async function configureMcpServer(): Promise<void> {
   await vscode.window.showTextDocument(doc);
 
   vscode.window.showInformationMessage(
-    `MCP Debugger server added to ${mcpJsonPath}. Restart the MCP server to use it with Copilot.`
+    `MCP ACS Debugger server added to ${mcpJsonPath}. Restart the MCP server to use it with Copilot.`
   );
 }
 
 export async function activate(context: vscode.ExtensionContext) {
   // Log to console first in case output channel creation fails
   console.log("=".repeat(60));
-  console.log("MCP Debugger extension activate() called");
+  console.log("MCP ACS Debugger extension activate() called");
   console.log(`Activation time: ${new Date().toISOString()}`);
   console.log("=".repeat(60));
 
   try {
-    outputChannel = vscode.window.createOutputChannel("MCP Debugger", {
+    outputChannel = vscode.window.createOutputChannel("MCP ACS Debugger", {
       log: true,
     });
     outputChannel.appendLine("=".repeat(60));
-    outputChannel.appendLine("MCP Debugger extension activating...");
+    outputChannel.appendLine("MCP ACS Debugger extension activating...");
     outputChannel.appendLine(`Activation time: ${new Date().toISOString()}`);
     outputChannel.appendLine("=".repeat(60));
     console.log("✓ Output channel created successfully");
@@ -159,7 +159,7 @@ export async function activate(context: vscode.ExtensionContext) {
     async (request, context, stream, token) => {
       if (!mcpClient) {
         stream.markdown(
-          "MCP Debugger server is not running. Please start it first."
+          "MCP ACS Debugger server is not running. Please start it first."
         );
         return;
       }
@@ -278,13 +278,15 @@ export async function activate(context: vscode.ExtensionContext) {
       mcpClient = new MCPDebuggerClient(context, outputChannel);
       await mcpClient.start();
       debugContextProvider.setMCPClient(mcpClient);
-      outputChannel.appendLine("MCP Debugger server started successfully");
+      outputChannel.appendLine("MCP ACS Debugger server started successfully");
     } catch (error) {
       outputChannel.appendLine(`Failed to start MCP server: ${error}`);
       // In test environment, this is expected to fail
       // In production, show error to user
       if (process.env.NODE_ENV === "production") {
-        vscode.window.showErrorMessage("Failed to start MCP Debugger server");
+        vscode.window.showErrorMessage(
+          "Failed to start MCP ACS Debugger server"
+        );
       }
     }
   }
@@ -353,14 +355,14 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   outputChannel.appendLine("=".repeat(60));
-  outputChannel.appendLine("MCP Debugger extension activated");
+  outputChannel.appendLine("MCP ACS Debugger extension activated");
   outputChannel.appendLine("=".repeat(60));
 
   // Register with shared status bar FIRST
   outputChannel.appendLine("Registering extension with shared status bar...");
   try {
     await registerExtension("mcp-debugger", {
-      displayName: "MCP Debugger",
+      displayName: "MCP ACS Debugger",
       status: "ok",
       settingsQuery: "mcp-debugger",
       actions: [
@@ -417,7 +419,7 @@ export async function activate(context: vscode.ExtensionContext) {
   });
 
   console.log("=".repeat(60));
-  console.log("✓ MCP Debugger extension activation completed successfully");
+  console.log("✓ MCP ACS Debugger extension activation completed successfully");
   console.log("=".repeat(60));
 }
 
@@ -482,7 +484,7 @@ async function startLanguageServer(context: vscode.ExtensionContext) {
     // Create the language client and start the client
     languageClient = new LanguageClient(
       "mcpDebuggerLanguageServer",
-      "MCP Debugger Language Server",
+      "MCP ACS Debugger Language Server",
       serverOptions,
       clientOptions
     );
@@ -568,7 +570,7 @@ async function startDebugSession() {
 
 async function detectHang() {
   if (!mcpClient) {
-    vscode.window.showErrorMessage("MCP Debugger server not running");
+    vscode.window.showErrorMessage("MCP ACS Debugger server not running");
     return;
   }
 
@@ -674,9 +676,9 @@ async function setSmartBreakpoint() {
 async function startCPUProfiling() {
   if (!mcpClient) {
     if (process.env.VSCODE_TEST_MODE === "true") {
-      throw new Error("MCP Debugger server not running");
+      throw new Error("MCP ACS Debugger server not running");
     }
-    vscode.window.showErrorMessage("MCP Debugger server not running");
+    vscode.window.showErrorMessage("MCP ACS Debugger server not running");
     return;
   }
 
@@ -700,9 +702,9 @@ async function startCPUProfiling() {
 async function takeHeapSnapshot() {
   if (!mcpClient) {
     if (process.env.VSCODE_TEST_MODE === "true") {
-      throw new Error("MCP Debugger server not running");
+      throw new Error("MCP ACS Debugger server not running");
     }
-    vscode.window.showErrorMessage("MCP Debugger server not running");
+    vscode.window.showErrorMessage("MCP ACS Debugger server not running");
     return;
   }
 

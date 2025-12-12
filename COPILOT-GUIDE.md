@@ -1,8 +1,8 @@
 # GitHub Copilot Integration Guide
 
-## Using MCP Debugger with GitHub Copilot
+## Using MCP ACS Debugger with GitHub Copilot
 
-This guide shows you how to use the MCP Debugger extension with GitHub Copilot for AI-assisted debugging.
+This guide shows you how to use the MCP ACS Debugger extension with GitHub Copilot for AI-assisted debugging.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ Before you begin, ensure you have:
 - **VS Code**: Version 1.85.0 or higher
 - **Node.js**: Version 16.x or higher
 - **GitHub Copilot**: Active subscription and extension installed
-- **MCP Debugger Extension**: Installed and configured
+- **MCP ACS Debugger Extension**: Installed and configured
 
 ## Setup
 
@@ -35,7 +35,7 @@ If you haven't already:
 
 ### 2. Configure MCP Server
 
-Add the MCP Debugger server to your workspace settings (`.vscode/settings.json`):
+Add the MCP ACS Debugger server to your workspace settings (`.vscode/settings.json`):
 
 ```json
 {
@@ -89,11 +89,13 @@ Add to your settings:
 ### Starting a Debug Session
 
 **Ask Copilot:**
+
 ```
 Debug the current file
 ```
 
 **What Copilot Does:**
+
 1. Starts a debug session with the current file
 2. Pauses at the first line
 3. Shows you the session ID
@@ -101,11 +103,13 @@ Debug the current file
 ### Setting Breakpoints
 
 **Ask Copilot:**
+
 ```
 Set a breakpoint at line 42 in app.js
 ```
 
 **What Copilot Does:**
+
 1. Sets a breakpoint at the specified location
 2. Verifies the breakpoint is set correctly
 3. Confirms with you
@@ -113,11 +117,13 @@ Set a breakpoint at line 42 in app.js
 ### Inspecting Variables
 
 **Ask Copilot:**
+
 ```
 What is the value of the user variable?
 ```
 
 **What Copilot Does:**
+
 1. Evaluates the expression in the current context
 2. Returns the value and type
 3. Explains what it means
@@ -125,11 +131,13 @@ What is the value of the user variable?
 ### Finding Bugs
 
 **Ask Copilot:**
+
 ```
 Find the bug in this function
 ```
 
 **What Copilot Does:**
+
 1. Analyzes the code
 2. Starts a debug session
 3. Sets strategic breakpoints
@@ -184,6 +192,7 @@ console.log(user.name);
 ```
 
 Would you like me to apply this fix?
+
 ```
 
 ### Workflow 2: Detect an Infinite Loop
@@ -198,6 +207,7 @@ Would you like me to apply this fix?
 **Example Conversation:**
 
 ```
+
 You: Check if this script has an infinite loop
 
 Copilot: I'll use hang detection to check for infinite loops.
@@ -207,6 +217,7 @@ Copilot: I'll use hang detection to check for infinite loops.
 Copilot: Yes, I detected an infinite loop at line 78 in process-data.js.
 
 The loop condition is:
+
 ```javascript
 while (i < items.length) {
   processItem(items[i]);
@@ -217,12 +228,14 @@ while (i < items.length) {
 The problem is that 'i' is never incremented, so the loop never exits.
 
 Fix: Add `i++` inside the loop:
+
 ```javascript
 while (i < items.length) {
   processItem(items[i]);
   i++;
 }
 ```
+
 ```
 
 ### Workflow 3: Understand Complex Logic
@@ -237,9 +250,10 @@ while (i < items.length) {
 **Example Conversation:**
 
 ```
+
 You: Step through this function and explain how it works
 
-Copilot: I'll step through the calculateDiscount function and explain 
+Copilot: I'll step through the calculateDiscount function and explain
 each step.
 
 [Copilot starts debug session and steps through]
@@ -252,9 +266,10 @@ Copilot: Here's how the function executes:
 4. Line 18: Calculates finalPrice = 80 (100 - 20)
 5. Line 19: Returns 80
 
-The function calculates a percentage discount and subtracts it from the 
-base price. In this case, a 20% discount on $100 results in a final 
+The function calculates a percentage discount and subtracts it from the
+base price. In this case, a 20% discount on $100 results in a final
 price of $80.
+
 ```
 
 ### Workflow 4: Debug a Failing Test
@@ -269,6 +284,7 @@ price of $80.
 **Example Conversation:**
 
 ```
+
 You: Debug this failing test
 
 Copilot: I'll debug the test and find out why it's failing.
@@ -280,23 +296,26 @@ Copilot: I found the issue. The test is failing because:
 Expected: "John"
 Actual: "john"
 
-The test is comparing user names, but the comparison is case-sensitive. 
-The database returns "john" (lowercase), but the test expects "John" 
+The test is comparing user names, but the comparison is case-sensitive.
+The database returns "john" (lowercase), but the test expects "John"
 (capitalized).
 
 You have two options:
 
 1. Fix the test to expect lowercase:
+
 ```javascript
 expect(user.name).toBe('john');
 ```
 
 2. Fix the code to capitalize names:
+
 ```javascript
 const name = dbUser.name.charAt(0).toUpperCase() + dbUser.name.slice(1);
 ```
 
 Which approach would you prefer?
+
 ```
 
 ### Workflow 5: Track Variable Changes
@@ -311,6 +330,7 @@ Which approach would you prefer?
 **Example Conversation:**
 
 ```
+
 You: Track how the balance variable changes in this function
 
 Copilot: I'll set up a watch on the balance variable and track its changes.
@@ -324,9 +344,10 @@ Copilot: Here's how the balance changes:
 3. Line 50: balance = 1150 (after deposit of 250)
 4. Line 65: balance = 1150 (no change, validation failed)
 
-The balance starts at $1000, decreases to $900 after a withdrawal, 
-then increases to $1150 after a deposit. The final attempted transaction 
+The balance starts at $1000, decreases to $900 after a withdrawal,
+then increases to $1150 after a deposit. The final attempted transaction
 was rejected due to validation, so the balance remained at $1150.
+
 ```
 
 ## Example Conversations
@@ -334,17 +355,19 @@ was rejected due to validation, so the balance remained at $1150.
 ### Example 1: Quick Bug Fix
 
 ```
+
 You: Why does this function return undefined?
 
 Copilot: Let me debug it and find out.
 
 [Debugs the function]
 
-Copilot: The function returns undefined because there's no return 
-statement in the else branch. When the condition is false, the function 
+Copilot: The function returns undefined because there's no return
+statement in the else branch. When the condition is false, the function
 doesn't return anything, which defaults to undefined.
 
 Add a return statement:
+
 ```javascript
 if (condition) {
   return value;
@@ -352,20 +375,22 @@ if (condition) {
   return defaultValue; // Add this
 }
 ```
+
 ```
 
 ### Example 2: Performance Issue
 
 ```
+
 You: Why is this function so slow?
 
 Copilot: I'll profile the function to identify bottlenecks.
 
 [Starts profiling]
 
-Copilot: The function is slow because of the nested loop at lines 42-48. 
-For each item in the outer loop (1000 items), you're iterating through 
-all items again in the inner loop (1000 items), resulting in 1,000,000 
+Copilot: The function is slow because of the nested loop at lines 42-48.
+For each item in the outer loop (1000 items), you're iterating through
+all items again in the inner loop (1000 items), resulting in 1,000,000
 iterations.
 
 Optimization: Use a Map for O(1) lookups instead of nested loops:
@@ -379,18 +404,20 @@ for (const item of items) {
 ```
 
 This reduces complexity from O(n²) to O(n).
+
 ```
 
 ### Example 3: TypeScript Debugging
 
 ```
+
 You: Debug this TypeScript file
 
 Copilot: I'll debug the TypeScript file using source maps.
 
 [Starts debug session with source maps]
 
-Copilot: I'm debugging the TypeScript source (not the compiled JavaScript). 
+Copilot: I'm debugging the TypeScript source (not the compiled JavaScript).
 The issue is at line 42 in app.ts:
 
 ```typescript
@@ -398,13 +425,14 @@ const user: User = getUser(id);
 console.log(user.name); // Error: user might be null
 ```
 
-TypeScript shows that getUser can return null, but you're not checking 
+TypeScript shows that getUser can return null, but you're not checking
 for it. Use optional chaining:
 
 ```typescript
 const user: User | null = getUser(id);
 console.log(user?.name ?? 'Unknown');
 ```
+
 ```
 
 ## Tips and Best Practices
@@ -467,6 +495,7 @@ Copilot automatically cleans up debug sessions, but you can also:
    ```
 
 2. **Enable Copilot MCP:**
+
    ```json
    {
      "github.copilot.advanced": {
@@ -487,6 +516,7 @@ Copilot automatically cleans up debug sessions, but you can also:
 ### Issue: Debug Sessions Fail to Start
 
 **Symptoms:**
+
 - Copilot says "Failed to start debug session"
 - Error messages about missing files
 
@@ -497,23 +527,26 @@ Copilot automatically cleans up debug sessions, but you can also:
    - Verify files exist
 
 2. **Check Node.js:**
+
    ```bash
    node --version  # Should be 16.x or higher
    ```
 
 3. **Check MCP Server:**
+
    ```bash
    node path/to/mcp-server/dist/index.js
    # Should start without errors
    ```
 
 4. **Check Logs:**
-   - View → Output → MCP Debugger
+   - View → Output → MCP ACS Debugger
    - Look for error messages
 
 ### Issue: Breakpoints Not Hitting
 
 **Symptoms:**
+
 - Copilot sets breakpoints but they don't pause execution
 - Code runs without stopping
 
@@ -538,6 +571,7 @@ Copilot automatically cleans up debug sessions, but you can also:
 ### Issue: Variables Show as Undefined
 
 **Symptoms:**
+
 - Copilot says variables are undefined
 - Can't inspect variable values
 
@@ -562,12 +596,14 @@ Copilot automatically cleans up debug sessions, but you can also:
 ### Issue: Copilot Takes Too Long
 
 **Symptoms:**
+
 - Copilot doesn't respond
 - Operations timeout
 
 **Solutions:**
 
 1. **Increase Timeout:**
+
    ```json
    {
      "mcp-debugger.defaultTimeout": 60000
@@ -700,7 +736,7 @@ If you encounter issues:
 1. Check the [Troubleshooting](#troubleshooting) section
 2. Review the [GitHub Issues](https://github.com/yourusername/mcp-debugger/issues)
 3. Ask Copilot: "Help me troubleshoot the MCP debugger"
-4. Check the Output panel: View → Output → MCP Debugger
+4. Check the Output panel: View → Output → MCP ACS Debugger
 
 ---
 

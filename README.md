@@ -1,4 +1,4 @@
-# MCP Debugger for VS Code
+# MCP ACS Debugger for VS Code
 
 AI-powered debugging for VS Code with multi-language support. Integrates with GitHub Copilot and AI agents through Model Context Protocol. Debug JavaScript, TypeScript, Python, Java, C/C++, Go, Rust, PHP, Ruby, and more via Debug Adapter Protocol.
 
@@ -13,6 +13,7 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 ## Features
 
 ### 🐛 Advanced Debugging
+
 - **VS Code Extension**: Multi-language support via Debug Adapter Protocol (JavaScript, TypeScript, Python, C/C++, Java, Go, Rust, PHP, Ruby, and more)
 - **Standalone MCP Server**: Node.js/JavaScript debugging via Chrome DevTools Protocol
 - **Smart Breakpoints**: AI-suggested breakpoint locations based on code analysis
@@ -22,22 +23,26 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 - **Code Lens**: Inline breakpoint suggestions at functions, loops, and error handlers
 
 ### 📊 Performance Profiling
+
 - **CPU Profiling**: Identify performance bottlenecks
 - **Memory Profiling**: Take heap snapshots and detect memory leaks
 - **Performance Timeline**: Track execution events and timing
 
 ### 🤖 AI Integration
+
 - **GitHub Copilot Ready**: Works seamlessly with GitHub Copilot
 - **MCP Protocol**: Exposes debugging capabilities to AI agents
 - **Smart Suggestions**: AI-powered debugging recommendations
 
 ### 🧪 Test Framework Support
+
 - **VS Code Extension**: Jest, Mocha, Vitest (JS/TS), pytest (Python), JUnit (Java), go test (Go), cargo test (Rust), and more
 - **Standalone MCP Server**: Jest, Mocha, Vitest (Node.js only)
 
 ### 🎨 Language Server Protocol (LSP) Features
 
 #### **Code Intelligence**
+
 - **Hover Information**: Hover over variables to see debugging instructions and inspection tips
 - **Signature Help**: Real-time parameter hints for all debugger functions with documentation
 - **Inlay Hints**: Inline type annotations showing return types (session-id, breakpoint-id, variable types)
@@ -45,24 +50,28 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 - **Semantic Tokens**: Syntax highlighting for debugger functions and variables
 
 #### **Code Actions (4 features)**
+
 - **Convert console.log to breakpoint**: Transform logging statements into proper breakpoints with watch expressions
 - **Remove console.log**: Clean up debugging statements
 - **Wrap in try-catch**: Add error handling around risky operations (e.g., JSON.parse)
 - **Add hang detection**: Insert hang detection comments for infinite loops
 
 #### **Navigation & Hierarchy**
+
 - **Call Hierarchy**: Visualize debugger function dependencies and call relationships
 - **Type Hierarchy**: Explore debugger type relationships (DebugSession, Breakpoint, StackFrame, Variable)
 - **Document Links**: Quick links to debugger documentation
 - **Go to Definition**: Navigate to debugger function definitions
 
 #### **Code Editing**
+
 - **Folding Ranges**: Collapse/expand debug session blocks
 - **Selection Ranges**: Smart selection expansion for debugger code
 - **Linked Editing**: Simultaneously edit related debugger identifiers
 - **Color Provider**: Visual severity indicators for diagnostics
 
 #### **Diagnostics & Validation**
+
 - **Infinite Loop Detection**: Warns about `while(true)` patterns with hang detection suggestions
 - **Missing Error Handling**: Suggests try-catch for operations like JSON.parse
 - **Console.log Hints**: Recommends using breakpoints instead of console.log for debugging
@@ -74,10 +83,10 @@ This repository is part of the [AI Capabilitites Suite](https://github.com/Digit
 
 1. Open VS Code
 2. Go to Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for "MCP Debugger"
+3. Search for "MCP ACS Debugger"
 4. Click Install
 
-### Install the MCP Debugger Server
+### Install the MCP ACS Debugger Server
 
 The extension requires the MCP debugger server to function. Install it globally:
 
@@ -102,12 +111,14 @@ code --install-extension ts-mcp-debugger-1.0.0.vsix
 ### 1. Start Debugging
 
 **Option A: Use Command Palette**
+
 1. Open any source code file (JavaScript, TypeScript, Python, Java, etc.)
 2. Press `Ctrl+Shift+P` (Cmd+Shift+P on Mac)
-3. Type "MCP Debugger: Start Debug Session"
+3. Type "MCP ACS Debugger: Start Debug Session"
 4. Press Enter
 
 **Option B: Use Debug Configuration**
+
 1. Open the Debug view (Ctrl+Shift+D / Cmd+Shift+D)
 2. Click "create a launch.json file"
 3. Select "MCP Node.js Debugger"
@@ -117,13 +128,13 @@ code --install-extension ts-mcp-debugger-1.0.0.vsix
 
 1. Open a file that might have infinite loops
 2. Press `Ctrl+Shift+P` (Cmd+Shift+P on Mac)
-3. Type "MCP Debugger: Detect Hanging Process"
+3. Type "MCP ACS Debugger: Detect Hanging Process"
 4. View hang detection results
 
 ### 3. Set Smart Breakpoints
 
 1. Place cursor on a line
-2. Right-click and select "MCP Debugger: Set Smart Breakpoint"
+2. Right-click and select "MCP ACS Debugger: Set Smart Breakpoint"
 3. Choose from AI-suggested breakpoint locations
 
 ## Configuration
@@ -149,6 +160,7 @@ Configure the extension in VS Code settings (`Ctrl+,` / `Cmd+,`):
 Add to `.vscode/launch.json`:
 
 #### Debug Current File
+
 ```json
 {
   "type": "mcp-node",
@@ -161,6 +173,7 @@ Add to `.vscode/launch.json`:
 ```
 
 #### Debug with Profiling
+
 ```json
 {
   "type": "mcp-node",
@@ -174,6 +187,7 @@ Add to `.vscode/launch.json`:
 ```
 
 #### Debug Jest Tests
+
 ```json
 {
   "type": "mcp-node",
@@ -190,11 +204,11 @@ Add to `.vscode/launch.json`:
 
 | Command | Description | Shortcut |
 |---------|-------------|----------|
-| `MCP Debugger: Start Debug Session` | Start debugging current file | - |
-| `MCP Debugger: Detect Hanging Process` | Detect infinite loops | - |
-| `MCP Debugger: Set Smart Breakpoint` | Set AI-suggested breakpoint | - |
-| `MCP Debugger: Start CPU Profiling` | Start CPU profiler | - |
-| `MCP Debugger: Take Heap Snapshot` | Take memory snapshot | - |
+| `MCP ACS Debugger: Start Debug Session` | Start debugging current file | - |
+| `MCP ACS Debugger: Detect Hanging Process` | Detect infinite loops | - |
+| `MCP ACS Debugger: Set Smart Breakpoint` | Set AI-suggested breakpoint | - |
+| `MCP ACS Debugger: Start CPU Profiling` | Start CPU profiler | - |
+| `MCP ACS Debugger: Take Heap Snapshot` | Take memory snapshot | - |
 
 ### LSP Commands (Available via MCP Protocol)
 
@@ -352,7 +366,7 @@ infiniteLoop();
 ```
 
 1. Open `hang.js`
-2. Run "MCP Debugger: Detect Hanging Process"
+2. Run "MCP ACS Debugger: Detect Hanging Process"
 3. View hang detection results showing the infinite loop location
 
 ### Example 3: Profile Performance
@@ -372,13 +386,13 @@ slowFunction();
 
 1. Open `slow.js`
 2. Start debugging with profiling enabled
-3. Run "MCP Debugger: Start CPU Profiling"
+3. Run "MCP ACS Debugger: Start CPU Profiling"
 4. Let the code execute
 5. View CPU profile to identify bottlenecks
 
 ## GitHub Copilot Integration
 
-The MCP Debugger works seamlessly with GitHub Copilot for AI-assisted debugging:
+The MCP ACS Debugger works seamlessly with GitHub Copilot for AI-assisted debugging:
 
 1. **Debugging Context**: Copilot can access debugging information
 2. **Smart Suggestions**: Get AI-powered debugging recommendations
@@ -390,7 +404,7 @@ The MCP Debugger works seamlessly with GitHub Copilot for AI-assisted debugging:
 
 1. Open Copilot Chat (Ctrl+Shift+I / Cmd+Shift+I)
 2. Ask: "Debug this file and find the bug"
-3. Copilot will automatically use the MCP Debugger tools
+3. Copilot will automatically use the MCP ACS Debugger tools
 
 ### Example Conversations
 
@@ -408,6 +422,7 @@ Copilot: [Profiles code, identifies bottlenecks, suggests optimizations]
 ### Learn More
 
 See the [Copilot Integration Guide](COPILOT-GUIDE.md) for:
+
 - Detailed setup instructions
 - Complete debugging workflows
 - Example conversations
@@ -419,21 +434,25 @@ See the [Copilot Integration Guide](COPILOT-GUIDE.md) for:
 The Language Server Protocol integration enables AI agents to:
 
 ### 1. **Understand Code Context**
+
 - Access document symbols to identify debug sessions and breakpoints
 - Use semantic tokens to understand debugger-specific syntax
 - Navigate type hierarchies to understand debugger data structures
 
 ### 2. **Provide Intelligent Suggestions**
+
 - Suggest breakpoints at optimal locations using code lens
 - Recommend quick fixes for common debugging patterns
 - Offer signature help for correct debugger function usage
 
 ### 3. **Validate Code**
+
 - Detect infinite loops and suggest hang detection
 - Identify missing error handling
 - Warn about inefficient debugging practices (console.log)
 
 ### 4. **Navigate Code**
+
 - Use call hierarchy to understand debugger function dependencies
 - Follow document links to relevant documentation
 - Navigate type hierarchies for debugger types
@@ -460,9 +479,10 @@ if (result.hung) {
 
 ### MCP Server Not Starting
 
-**Problem**: Extension shows "MCP Debugger server not running"
+**Problem**: Extension shows "MCP ACS Debugger server not running"
 
 **Solution**:
+
 1. Check if Node.js is installed: `node --version`
 2. Install MCP server: `npm install -g @ai-capabilities-suite/mcp-debugger-server`
 3. Set custom server path in settings if needed
@@ -473,6 +493,7 @@ if (result.hung) {
 **Problem**: Breakpoints are not being hit
 
 **Solution**:
+
 1. Ensure source maps are enabled for TypeScript
 2. Check that file paths are absolute
 3. Verify the program is actually executing the code
@@ -483,6 +504,7 @@ if (result.hung) {
 **Problem**: Hang detection reports hangs for legitimate long-running operations
 
 **Solution**:
+
 1. Increase `mcp-debugger.hangDetectionTimeout` in settings
 2. Disable hang detection for specific debug sessions
 3. Use conditional breakpoints instead
@@ -492,6 +514,7 @@ if (result.hung) {
 **Problem**: Debugging is slow
 
 **Solution**:
+
 1. Disable profiling if not needed
 2. Reduce number of breakpoints
 3. Increase timeout values
@@ -517,13 +540,13 @@ if (result.hung) {
 
 This extension contributes the following settings:
 
-* `mcp-debugger.serverPath`: Path to MCP debugger server executable
-* `mcp-debugger.autoStart`: Automatically start MCP server when VS Code opens
-* `mcp-debugger.defaultTimeout`: Default timeout for debug operations (ms)
-* `mcp-debugger.enableHangDetection`: Enable automatic hang detection
-* `mcp-debugger.hangDetectionTimeout`: Timeout for hang detection (ms)
-* `mcp-debugger.enableProfiling`: Enable performance profiling features
-* `mcp-debugger.logLevel`: Log level (debug, info, warn, error)
+- `mcp-debugger.serverPath`: Path to MCP debugger server executable
+- `mcp-debugger.autoStart`: Automatically start MCP server when VS Code opens
+- `mcp-debugger.defaultTimeout`: Default timeout for debug operations (ms)
+- `mcp-debugger.enableHangDetection`: Enable automatic hang detection
+- `mcp-debugger.hangDetectionTimeout`: Timeout for hang detection (ms)
+- `mcp-debugger.enableProfiling`: Enable performance profiling features
+- `mcp-debugger.logLevel`: Log level (debug, info, warn, error)
 
 ## Known Issues
 
@@ -539,6 +562,7 @@ This extension contributes the following settings:
 ### 1.5.0
 
 Major LSP update:
+
 - **13 new LSP features** for enhanced code intelligence
 - **Code Actions**: Convert console.log to breakpoints, add try-catch, remove logging
 - **Signature Help**: Real-time parameter hints for all debugger functions
@@ -560,6 +584,7 @@ Major LSP update:
 ### 1.0.0
 
 Initial release:
+
 - Advanced debugging with MCP integration
 - Hang detection
 - CPU and memory profiling
@@ -577,9 +602,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## More Information
 
-- [VS Code MCP Debugger Documentation](https://github.com/Digital-Defiance/vscode-mcp-debugger)
-- [MCP Debugger Server Documentation](https://github.com/Digital-Defiance/mcp-debugger-server)
-- [MCP Debugger Core Documentation](https://github.com/Digital-Defiance/mcp-debugger-core)
+- [VS Code MCP ACS Debugger Documentation](https://github.com/Digital-Defiance/vscode-mcp-debugger)
+- [MCP ACS Debugger Server Documentation](https://github.com/Digital-Defiance/mcp-debugger-server)
+- [MCP ACS Debugger Core Documentation](https://github.com/Digital-Defiance/mcp-debugger-core)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 - [VS Code Debugging](https://code.visualstudio.com/docs/editor/debugging)
 

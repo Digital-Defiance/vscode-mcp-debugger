@@ -24,14 +24,26 @@ import { getCodeActions } from "./codeActions";
 import { getSignatureHelp } from "./signatureHelp";
 import { getInlayHints } from "./inlayHints";
 import { getDocumentSymbols } from "./documentSymbols";
-import { getSemanticTokens, tokenTypes, tokenModifiers } from "./semanticTokens";
+import {
+  getSemanticTokens,
+  tokenTypes,
+  tokenModifiers,
+} from "./semanticTokens";
 import { getDocumentLinks } from "./documentLinks";
 import { getDocumentColors, getColorPresentations } from "./colorProvider";
 import { getFoldingRanges } from "./foldingRanges";
 import { getSelectionRanges } from "./selectionRanges";
 import { getLinkedEditingRanges } from "./linkedEditingRanges";
-import { prepareCallHierarchy, getIncomingCalls, getOutgoingCalls } from "./callHierarchy";
-import { prepareTypeHierarchy, getSupertypes, getSubtypes } from "./typeHierarchy";
+import {
+  prepareCallHierarchy,
+  getIncomingCalls,
+  getOutgoingCalls,
+} from "./callHierarchy";
+import {
+  prepareTypeHierarchy,
+  getSupertypes,
+  getSubtypes,
+} from "./typeHierarchy";
 
 // Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
@@ -147,7 +159,7 @@ connection.onInitialized(() => {
     });
   }
 
-  connection.console.log("MCP Debugger Language Server initialized");
+  connection.console.log("MCP ACS Debugger Language Server initialized");
   // Note: MCP client is managed by the main extension, not the language server
 });
 
@@ -266,7 +278,7 @@ connection.onHover(
           "2. Set a breakpoint on this line",
           "3. Use the debugger to inspect the value",
           "",
-          "Or use the command: `MCP Debugger: Inspect Variable`",
+          "Or use the command: `MCP ACS Debugger: Inspect Variable`",
         ].join("\n"),
       },
     };

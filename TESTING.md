@@ -1,6 +1,6 @@
-# VSCode MCP Debugger Testing Guide
+# VSCode MCP ACS Debugger Testing Guide
 
-This document describes the comprehensive test suite for the MCP Debugger VS Code extension.
+This document describes the comprehensive test suite for the MCP ACS Debugger VS Code extension.
 
 ## Test Structure
 
@@ -29,12 +29,14 @@ src/test/
 ## Test Coverage
 
 ### 1. Extension Tests (`extension.test.ts`)
+
 - ✅ Extension presence and activation
 - ✅ Command registration
 - ✅ Package.json metadata validation
 - ✅ Contribution points
 
 ### 2. Configuration Tests (`configuration.test.ts`)
+
 - ✅ Default configuration values
 - ✅ Configuration updates
 - ✅ Timeout validation
@@ -44,6 +46,7 @@ src/test/
 - ✅ Configuration persistence
 
 ### 3. Error Handling Tests (`errorHandling.test.ts`)
+
 - ✅ Server not running scenarios
 - ✅ Invalid server path handling
 - ✅ Missing active file handling
@@ -53,6 +56,7 @@ src/test/
 - ✅ Extension stability after errors
 
 ### 4. MCP Client Tests (`mcpClient.test.ts`)
+
 - ✅ Client instantiation
 - ✅ Method availability
 - ✅ Start/stop lifecycle
@@ -63,6 +67,7 @@ src/test/
 - ✅ Stop without start
 
 ### 5. Multi-Session Tests (`multiSession.test.ts`)
+
 - ✅ Multiple concurrent debug sessions
 - ✅ Concurrent breakpoints
 - ✅ Session switching
@@ -70,6 +75,7 @@ src/test/
 - ✅ Context maintenance across sessions
 
 ### 6. Performance Tests (`performance.test.ts`)
+
 - ✅ Extension activation time (< 5s)
 - ✅ Command registration speed (< 1s)
 - ✅ Configuration access speed (< 100ms for 100 accesses)
@@ -80,6 +86,7 @@ src/test/
 - ✅ Memory usage stability
 
 ### 7. Backward Compatibility Tests (`backwardCompatibility.test.ts`)
+
 - ✅ Original commands preserved
 - ✅ Configuration schema unchanged
 - ✅ Debug configuration type (mcp-node)
@@ -93,10 +100,12 @@ src/test/
 - ✅ Works without language server
 
 ### 8. Debug Adapter Tests (`debugAdapter.test.ts`)
+
 - ✅ Debug adapter factory registration
 - ✅ Debug configuration validation
 
 ### 9. Debug Context Tests (`debugContext.test.ts`)
+
 - ✅ Context initialization
 - ✅ Context string generation
 - ✅ Language server context provision
@@ -104,6 +113,7 @@ src/test/
 - ✅ Context updates on session start
 
 ### 10. E2E Debugging Tests (`debugger-e2e.test.ts`)
+
 - ✅ Debug session start/stop
 - ✅ Breakpoint setting and hitting
 - ✅ Variable inspection
@@ -113,6 +123,7 @@ src/test/
 - ✅ Conditional breakpoints
 
 ### 11. Language Server Tests (`languageServer.test.ts`)
+
 - ✅ Infinite loop diagnostics
 - ✅ Missing error handling diagnostics
 - ✅ Code lens for function declarations
@@ -154,6 +165,7 @@ yarn watch
 ```
 
 Then in another terminal:
+
 ```bash
 yarn test
 ```
@@ -161,6 +173,7 @@ yarn test
 ## Test Quality Metrics
 
 ### Current Coverage
+
 - **12 test suites** with comprehensive scenarios
 - **100+ individual tests** covering all features
 - **Extension lifecycle**: Activation, deactivation, error recovery
@@ -170,6 +183,7 @@ yarn test
 - **Compatibility**: Backward compatibility ensured
 
 ### Performance Targets
+
 - Extension activation: < 5 seconds
 - Command registration: < 1 second
 - Configuration access: < 1ms per access
@@ -177,6 +191,7 @@ yarn test
 - Breakpoint operations: < 500ms
 
 ### Quality Standards
+
 - All tests must pass before release
 - No skipped tests in production
 - Performance targets must be met
@@ -229,6 +244,7 @@ jobs:
 ### Testing in Development
 
 1. **Open Extension Development Host:**
+
    ```bash
    # In VSCode, press F5 or:
    code --extensionDevelopmentPath=/path/to/vscode-mcp-debugger
@@ -236,7 +252,7 @@ jobs:
 
 2. **Test Commands:**
    - Open Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
-   - Type "MCP Debugger"
+   - Type "MCP ACS Debugger"
    - Test each command
 
 3. **Test Debugging:**
@@ -247,7 +263,7 @@ jobs:
 
 4. **Test Configuration:**
    - Open Settings (Ctrl+, / Cmd+,)
-   - Search for "MCP Debugger"
+   - Search for "MCP ACS Debugger"
    - Modify settings and verify behavior
 
 ## Debugging Tests
@@ -271,6 +287,7 @@ yarn test
 ### Issue: Tests Timeout
 
 **Solution:**
+
 ```typescript
 test('Long running test', async function() {
   this.timeout(60000); // 60 seconds
@@ -281,11 +298,13 @@ test('Long running test', async function() {
 ### Issue: Extension Not Activating
 
 **Causes:**
+
 - Missing dependencies
 - Compilation errors
 - Invalid package.json
 
 **Solutions:**
+
 1. Check compilation: `yarn compile`
 2. Verify package.json syntax
 3. Check extension logs in Output panel
@@ -293,6 +312,7 @@ test('Long running test', async function() {
 ### Issue: Language Server Not Starting
 
 **Expected Behavior:**
+
 - Extension should continue without language server
 - Core debugging features should still work
 - Error logged but not thrown
@@ -300,6 +320,7 @@ test('Long running test', async function() {
 ### Issue: Display Server Not Available (Linux)
 
 **Solution:**
+
 ```bash
 xvfb-run -a yarn test
 ```
@@ -309,6 +330,7 @@ xvfb-run -a yarn test
 ### Writing Tests
 
 1. **Use Descriptive Names:**
+
    ```typescript
    test('Should handle server startup failure gracefully', async () => {
      // ...
@@ -316,6 +338,7 @@ xvfb-run -a yarn test
    ```
 
 2. **Test One Thing:**
+
    ```typescript
    // Good
    test('Should register start command', () => {
@@ -324,6 +347,7 @@ xvfb-run -a yarn test
    ```
 
 3. **Clean Up Resources:**
+
    ```typescript
    teardown(() => {
      client.stop();
@@ -332,6 +356,7 @@ xvfb-run -a yarn test
    ```
 
 4. **Handle Async Properly:**
+
    ```typescript
    test('Async test', async function() {
      this.timeout(10000);
@@ -340,6 +365,7 @@ xvfb-run -a yarn test
    ```
 
 5. **Use Assertions:**
+
    ```typescript
    assert.ok(value, 'Value should be truthy');
    assert.strictEqual(actual, expected, 'Values should match');

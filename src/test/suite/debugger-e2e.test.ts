@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 import * as path from "path";
 
-suite("MCP Debugger E2E Test Suite", () => {
+suite("MCP ACS Debugger E2E Test Suite", () => {
   let fixturesPath: string;
 
   suiteSetup(async function () {

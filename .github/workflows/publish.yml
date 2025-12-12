@@ -73,9 +73,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: "v${{ env.NEW_VERSION }}"
-          name: "VSCode MCP Debugger v${{ env.NEW_VERSION }}"
+          name: "VSCode MCP ACS Debugger v${{ env.NEW_VERSION }}"
           body: |
-            ## VSCode MCP Debugger Extension v${{ env.NEW_VERSION }}
+            ## VSCode MCP ACS Debugger Extension v${{ env.NEW_VERSION }}
 
             ${{ env.CHANGELOG }}
 
