@@ -2,7 +2,7 @@
   "name": "ts-mcp-debugger",
   "displayName": "MCP ACS Debugger",
   "description": "AI-powered debugging for VS Code with multi-language support. Integrates with GitHub Copilot and AI agents through Model Context Protocol. Debug JavaScript, TypeScript, Python, Java, C/C++, Go, Rust, and more.",
-  "version": "1.5.22",
+  "version": "1.5.23",
   "packageManager": "yarn@4.12.0",
   "publisher": "DigitalDefiance",
   "icon": "images/icon.png",
@@ -421,11 +421,6 @@
     ],
     "commands": [
       {
-        "command": "mcp-debugger.configureMcp",
-        "title": "MCP ACS Debugger: Add to Copilot MCP Servers",
-        "icon": "$(add)"
-      },
-      {
         "command": "mcp-debugger.start",
         "title": "MCP ACS Debugger: Start Debug Session",
         "icon": "$(debug-start)"
@@ -707,7 +702,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@ai-capabilities-suite/mcp-debugger-server": "^1.5.22",
+    "@ai-capabilities-suite/mcp-debugger-server": "^1.5.23",
     "@ai-capabilities-suite/vscode-shared-status-bar": "^1.0.21",
     "@modelcontextprotocol/sdk": "^0.5.0",
     "@vscode/debugadapter": "^1.65.0",
