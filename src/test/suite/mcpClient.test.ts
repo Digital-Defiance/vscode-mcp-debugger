@@ -3,13 +3,15 @@ import { MCPDebuggerClient } from "../../mcpClient";
 import * as vscode from "vscode";
 
 suite("MCP Client Test Suite", () => {
-  let outputChannel: vscode.OutputChannel;
+  let outputChannel: vscode.LogOutputChannel;
   const mockContext = {
     extensionPath: process.cwd(),
   } as vscode.ExtensionContext;
 
   setup(() => {
-    outputChannel = vscode.window.createOutputChannel("MCP Test");
+    outputChannel = vscode.window.createOutputChannel("MCP Test", {
+      log: true,
+    });
   });
 
   teardown(() => {
@@ -62,7 +64,7 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("Should reject operations before start", async () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.detectHang({
@@ -79,7 +81,7 @@ suite("MCP Client Test Suite", () => {
   test("Should handle server startup failure", async function () {
     this.timeout(10000);
 
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.start();
@@ -93,7 +95,7 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("detectHang should accept valid parameters", async () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     const params = {
       command: "node",
@@ -113,7 +115,7 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("suggestBreakpoints should accept file path", async () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.start();
@@ -127,7 +129,7 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("startCPUProfile should accept session ID", async () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.start();
@@ -141,7 +143,7 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("takeHeapSnapshot should accept session ID", async () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.start();
@@ -157,7 +159,7 @@ suite("MCP Client Test Suite", () => {
   test("Should handle multiple start calls", async function () {
     this.timeout(10000);
 
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
 
     try {
       await client.start();
@@ -171,7 +173,7 @@ suite("MCP Client Test Suite", () => {
   });
 
   test("Should handle stop without start", () => {
-    const client = new MCPDebuggerClient(outputChannel);
+    const client = new MCPDebuggerClient(mockContext, outputChannel);
     client.stop();
     assert.ok(true, "Handled stop without start");
   });

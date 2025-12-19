@@ -188,7 +188,7 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   // Register debug adapter descriptor factory
-  const factory = new MCPDebugAdapterDescriptorFactory();
+  const factory = new MCPDebugAdapterDescriptorFactory(context);
   context.subscriptions.push(
     vscode.debug.registerDebugAdapterDescriptorFactory("mcp-node", factory)
   );

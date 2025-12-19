@@ -30,15 +30,27 @@ export class MCPDebugAdapter extends DebugSession {
   private mcpClient: MCPDebuggerClient;
   private sessionId: string | undefined;
   private variableHandles = new Handles<string>();
+  private context: vscode.ExtensionContext | undefined;
 
-  constructor() {
+  constructor(context?: vscode.ExtensionContext) {
     super();
     this.setDebuggerLinesStartAt1(true);
     this.setDebuggerColumnsStartAt1(true);
 
-    const outputChannel =
-      vscode.window.createOutputChannel("MCP Debug Adapter");
-    this.mcpClient = new MCPDebuggerClient(outputChannel);
+    this.context = context;
+    const outputChannel = vscode.window.createOutputChannel(
+      "MCP Debug Adapter",
+      { log: true }
+    );
+
+    // Create a minimal context if not provided (for test environment)
+    const effectiveContext =
+      context ||
+      ({
+        extensionPath: process.cwd(),
+      } as vscode.ExtensionContext);
+
+    this.mcpClient = new MCPDebuggerClient(effectiveContext, outputChannel);
   }
 
   protected initializeRequest(
