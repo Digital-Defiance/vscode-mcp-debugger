@@ -5,7 +5,15 @@ const watch = process.argv.includes("--watch");
 
 async function main() {
   const ctx = await esbuild.context({
-    entryPoints: ["src/extension.ts", "src/languageServer.ts"],
+    entryPoints: [
+      "src/extension.ts",
+      "src/languageServer.ts",
+      "src/test/runTest.ts",
+      "src/test/suite/index.ts",
+      "src/test/suite/extension.test.ts",
+      "src/test/suite/performance.test.ts",
+      "src/test/suite/debugAdapterFactory.test.ts",
+    ],
     bundle: true,
     format: "cjs",
     minify: production,
@@ -13,7 +21,8 @@ async function main() {
     sourcesContent: false,
     platform: "node",
     outdir: "out",
-    external: ["vscode"],
+    outbase: "src",
+    external: ["vscode", "mocha"],
     logLevel: "silent",
     plugins: [
       /* add to the end of plugins array */
