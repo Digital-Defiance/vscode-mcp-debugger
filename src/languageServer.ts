@@ -247,6 +247,56 @@ connection.onDidChangeWatchedFiles((_change: any) => {
   connection.console.log("We received a file change event");
 });
 
+// Provide code completion for debugging commands and variables
+connection.onCompletion(
+  async (
+    _textDocumentPosition: TextDocumentPositionParams
+  ): Promise<CompletionItem[]> => {
+    // Return debugging-related completions
+    return [
+      {
+        label: "debugger;",
+        kind: CompletionItemKind.Snippet,
+        data: 1,
+        detail: "Insert debugger statement",
+        documentation: "Pauses code execution when DevTools is open",
+      },
+      {
+        label: "console.log",
+        kind: CompletionItemKind.Function,
+        data: 2,
+        detail: "Log to console (consider using debugger instead)",
+        documentation: "Consider using breakpoints for better debugging",
+      },
+      {
+        label: "try...catch",
+        kind: CompletionItemKind.Snippet,
+        data: 3,
+        detail: "Try-catch block",
+        documentation: "Handle errors gracefully",
+      },
+    ];
+  }
+);
+
+connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
+  // Add more details when a completion item is selected
+  if (item.data === 1) {
+    item.detail = "Debugger Statement";
+    item.documentation =
+      "Use the debugger statement to pause execution and inspect variables.";
+  } else if (item.data === 2) {
+    item.detail = "Console Log (Debugging Hint)";
+    item.documentation =
+      "While console.log is useful, consider using the debugger for better inspection.";
+  } else if (item.data === 3) {
+    item.detail = "Error Handling Block";
+    item.documentation =
+      "Wrap potentially failing code in try-catch to handle errors gracefully.";
+  }
+  return item;
+});
+
 // Provide hover information for variables
 connection.onHover(
   async (params: TextDocumentPositionParams): Promise<Hover | null> => {
