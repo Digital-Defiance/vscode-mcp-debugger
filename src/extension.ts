@@ -444,7 +444,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Register with shared status bar FIRST
   outputChannel.appendLine("Registering extension with shared status bar...");
   try {
-    await registerExtension("mcp-debugger", {
+    const regPromise = registerExtension("mcp-debugger", {
       displayName: "MCP ACS Debugger",
       status: "ok",
       settingsQuery: "mcp-debugger",
@@ -486,6 +486,10 @@ export async function activate(context: vscode.ExtensionContext) {
         },
       ],
     });
+    Promise.race([
+      regPromise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('ACS registration timeout')), 5000)),
+    ]).catch((err) => console.error('[Debugger] ACS registration:', err.message));
     outputChannel.appendLine("✓ Extension registered with shared status bar");
   } catch (error) {
     outputChannel.appendLine(
